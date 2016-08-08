@@ -1,6 +1,5 @@
 defmodule BetterReddit do
   use Application
-  alias BetterReddit.Supervisor
   alias BetterReddit.Endpoint
 
   @moduledoc ~S"""

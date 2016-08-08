@@ -41,6 +41,7 @@ defmodule BetterReddit.Mixfile do
      {:httpoison, "~> 0.9.0"},
      
      {:dialyxir, "~> 0.3.5", only: [:dev]},
+     {:poison, "~> 2.0"},
      {:credo, "~>0.4", only: [:dev, :test]}]
   end
 

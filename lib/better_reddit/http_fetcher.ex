@@ -25,8 +25,8 @@ defmodule BetterReddit.HTTPFetcher do
         {:error, :unknown_status}
       {:error, %HTTPoison.Error{reason: :timeout}} ->
         {:error, :timeout}
-      _ ->
-        {:error, :unknown_error}
+      err ->
+        {:error, err}
     end
   end
 end

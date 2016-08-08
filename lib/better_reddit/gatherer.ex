@@ -13,5 +13,6 @@ defmodule BetterReddit.Gatherer do
 
   def run do
     fetch_front_page(0)
+    run
   end
 end

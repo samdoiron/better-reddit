@@ -7,6 +7,7 @@ defmodule BetterReddit.Gather do
   require Logger
 
   @subreddits ~w(
+All
 AskReddit
 funny
 todayilearned

@@ -1,4 +1,4 @@
-defmodule BetterReddit.Parser do
+defmodule BetterReddit.Reddit.Parser do
   alias BetterReddit.Reddit
 
   @moduledoc ~S"""
@@ -28,8 +28,10 @@ defmodule BetterReddit.Parser do
       title: Map.get(post, "title"),
       ups: Map.get(post, "ups"),
       downs: Map.get(post, "downs"),
-      url: Map.get(post, "url"),
-      author: Map.get(post, "author")
+      url: Map.get(post, "url") |> String.replace("&amp;", "&"),
+      author: Map.get(post, "author"),
+      subreddit: Map.get(post, "subreddit"),
+      created_timestamp: Map.get(post, "created_utc") |> trunc()
     }
   end
 end

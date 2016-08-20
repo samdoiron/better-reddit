@@ -14,10 +14,11 @@ defmodule BetterReddit do
 
     # Define workers and child supervisors to be supervised
     children = [
-      # Start the Ecto repository
-      supervisor(BetterReddit.Repo, []),
       # Start the endpoint when the application starts
       supervisor(BetterReddit.Endpoint, []),
+      
+      worker(BetterReddit.Repo, []),
+      worker(BetterReddit.Gather, [])
       # Start your own worker by calling:
       #   BetterReddit.Worker.start_link(arg1, arg2, arg3)
       # worker(BetterReddit.Worker, [arg1, arg2, arg3]),

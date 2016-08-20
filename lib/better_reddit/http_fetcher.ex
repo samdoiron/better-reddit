@@ -10,10 +10,11 @@ defmodule BetterReddit.HTTPFetcher do
   """
 
   @behaviour BetterReddit.Fetch
+  @user_agent "web:better_reddit:v0.1 (by /u/tinsnail)"
 
   def fetch(url) do
-    case HTTPoison.get(url) do
-      {:ok, %HTTPoison.Response{status_code: 200}, body: body} ->
+    case HTTPoison.get(url, %{"User-Agent" => @user_agent}) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body}
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         {:error, :not_found}
@@ -21,8 +22,8 @@ defmodule BetterReddit.HTTPFetcher do
         {:error, :redirect}
       {:ok, %HTTPoison.Response{status_code: 302}} ->
         {:error, :redirect}
-      {:ok, _} ->
-        {:error, :unknown_status}
+      {:ok, %HTTPoison.Response{status_code: status}} ->
+        {:error, {:status, status}}
       {:error, %HTTPoison.Error{reason: :timeout}} ->
         {:error, :timeout}
       err ->

@@ -1,10 +1,10 @@
 defmodule BetterReddit.ParserTest do
   use ExUnit.Case
-  alias BetterReddit.Parser
+  alias BetterReddit.Reddit.Parser
   alias BetterReddit.Reddit
 
   setup do
-    listing = File.read!("test/lib/reddit_hot.json")
+    listing = File.read!("test/lib/reddit/reddit_hot.json")
     {:ok, listing: listing}
   end
 

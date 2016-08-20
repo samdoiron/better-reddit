@@ -6,138 +6,10 @@ defmodule BetterReddit.Gather do
 
   require Logger
 
-  @subreddits ~w(
-All
-AskReddit
-funny
-todayilearned
-pics
-science
-worldnews
-IAmA
-announcements
-videos
-gaming
-movies
-Music
-aww
-news
-gifs
-explainlikeimfive
-askscience
-EarthPorn
-books
-television
-LifeProTips
-mildlyinteresting
-DIY
-Showerthoughts
-space
-sports
-tifu
-Jokes
-InternetIsBeautiful
-food
-history
-gadgets
-photoshopbattles
-nottheonion
-dataisbeautiful
-Futurology
-Documentaries
-GetMotivated
-personalfinance
-listentothis
-philosophy
-UpliftingNews
-OldSchoolCool
-Art
-creepy
-nosleep
-WritingPrompts
-TwoXChromosomes
-Fitness
-technology
-bestof
-WTF
-AdviceAnimals
-politics
-atheism
-woahdude
-europe
-gonewild
-leagueoflegends
-trees
-pokemongo
-gameofthrones
-interestingasfuck
-4chan
-Games
-BlackPeopleTwitter
-programming
-Android
-nsfw
-sex
-cringepics
-pcmasterrace
-reactiongifs
-malefashionadvice
-ImGoingToHellForThis
-pokemon
-RealGirls
-Overwatch
-Frugal
-fffffffuuuuuuuuuuuu
-YouShouldKnow
-NSFW_GIF
-Unexpected
-relationships
-HistoryPorn
-AskHistorians
-oddlysatisfying
-lifehacks
-nfl
-soccer
-StarWars
-tattoos
-comics
-OutOfTheLoop
-JusticePorn
-Minecraft
-FoodPorn
-facepalm
-cringe
-nba
-hiphopheads
-me_irl
-wheredidthesodago
-GlobalOffensive
-anime
-buildapc
-wallpapers
-GameDeals
-hearthstone
-freebies
-gentlemanboners
-conspiracy
-Cooking
-TrueReddit
-cats
-olympics
-talesfromtechsupport
-shittyaskscience
-apple
-loseit
-EatCheapAndHealthy
-skyrim
-asoiaf
-NetflixBestOf
-humor)
-
   @reddit_api_timeout_ms 2_000
 
   def start_link do
-    case Task.start_link(fn -> run() end) do
+    case Task.start_link(fn -> run(load_subreddits()) end) do
       {:ok, pid} ->
         Process.register(pid, __MODULE__)
         {:ok, pid}
@@ -145,12 +17,12 @@ humor)
     end
   end
 
-  def run do
-    for subreddit <- @subreddits do
+  def run(subreddits) do
+    for subreddit <- subreddits do
       sleep_timeout()
       update_subreddit(subreddit)
     end
-    run()
+    run(subreddits)
   end
 
   defp update_subreddit(name) do
@@ -161,5 +33,12 @@ humor)
 
   defp sleep_timeout do
     :timer.sleep(@reddit_api_timeout_ms)
+  end
+
+  defp load_subreddits do
+    case File.read("config/subreddits.txt") do
+      {:ok, content} -> content |> String.split("\n")
+      {:err, err} -> raise "could not load subreddit list: #{err}"
+    end
   end
 end

@@ -12,9 +12,9 @@
   </head>
 
   <body>
-      <main role="main">
+      <main>
         <div class="site-top">
-          <h1 class="logo">Better Reddit</h1>
+          <h2 class="logo">Better Reddit</h2>
           <nav>
           <ul>
             <li><a href="/r/all">All</a></li>

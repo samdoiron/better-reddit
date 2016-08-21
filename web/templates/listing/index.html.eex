@@ -1,8 +1,8 @@
 <%= for post <- @listing.posts do %>
   <article class="post">
-    <h1 class="post-title">
+    <h2 class="post-title">
       <a href="<%= rewrite_url(post.url) %>"><%= post.title %></a>
-    </h1>
+    </h2>
     <div class="post-via">
       on
       <span class="post-source"><%= post.subreddit %></span>

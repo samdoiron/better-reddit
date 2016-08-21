@@ -14,7 +14,7 @@
   <body>
       <main>
         <div class="site-top">
-          <h2 class="logo">Better Reddit</h2>
+          <h1 class="logo">Better Reddit</h1>
           <nav>
           <ul>
             <li><a href="/r/all">All</a></li>

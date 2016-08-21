@@ -36,4 +36,65 @@ defmodule BetterReddit.ParserTest do
       assert "" != post.author
     end)
   end
+
+  test "titles have HTML entities decoded" do
+    test_html_entity_decoding(fn (post, value) ->
+      %{ post | :title => value }
+    end)
+  end
+
+  test "urls have special HTML entities decoded" do
+    test_html_entity_decoding(fn (post, value) ->
+      %{ post | :url => value }
+    end)
+  end
+
+  def test_html_entity_decoding(set_property) do
+    input_values = [
+      "Unescape this, that, &amp; the other",
+      "Space &mdash; the final frontier"
+    ]
+
+    output_values = [
+      "Unescape this, that, & the other",
+      "Space — the final frontier"
+    ]
+
+    input = input_values
+    |> Enum.map(fn (value) ->
+      set_property.(%Reddit.Post{}, value)
+    end)
+    |> create_listing()
+
+    output_posts = output_values
+    |> Enum.map(fn (value) ->
+      set_property.(%Reddit.Post{}, value)
+    end)
+    output_listing = %Reddit.Listing{posts: output_posts}
+
+    assert {:ok, output_listing} == Parser.parse_listing(input)
+  end
+
+  defp create_listing(posts) do
+    Poison.encode!(%{
+      "data" => %{
+        "children" => Enum.map(posts, fn (post) ->
+          %{ "data" => create_post_response(post) }
+        end)
+      }
+    })
+  end
+
+
+  defp create_post_response(post) do
+    %{
+      "title" => post.title,
+      "ups" => post.ups,
+      "downs" => post.downs,
+      "url" => post.url,
+      "author" => post.author,
+      "subreddit" => post.subreddit,
+      "created_utc" => post.created_timestamp
+    }
+  end
 end

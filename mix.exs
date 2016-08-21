@@ -43,6 +43,7 @@ defmodule BetterReddit.Mixfile do
      {:dialyxir, "~> 0.3.5", only: [:dev]},
      {:poison, "~> 2.0"},
      {:timex, "~> 3.0"},
+     {:html_entities, "~> 0.3.0"},
      {:credo, "~>0.4", only: [:dev, :test]}]
   end
 

@@ -25,10 +25,10 @@ defmodule BetterReddit.Reddit.Parser do
     post = Map.get(entry, "data")
 
     %Reddit.Post{
-      title: Map.get(post, "title"),
+      title: Map.get(post, "title") |> HtmlEntities.decode(),
       ups: Map.get(post, "ups"),
       downs: Map.get(post, "downs"),
-      url: Map.get(post, "url") |> String.replace("&amp;", "&"),
+      url: Map.get(post, "url") |> HtmlEntities.decode(),
       author: Map.get(post, "author"),
       subreddit: Map.get(post, "subreddit"),
       created_timestamp: Map.get(post, "created_utc") |> trunc()

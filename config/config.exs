@@ -7,7 +7,7 @@ use Mix.Config
 
 # General application configuration
 config :better_reddit,
-  ecto_repos: [],
+  ecto_repos: []
 
 # Configures the endpoint
 config :better_reddit, BetterReddit.Endpoint,

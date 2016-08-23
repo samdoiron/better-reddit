@@ -1,6 +1,7 @@
 defmodule BetterReddit.ListingController do
   use BetterReddit.Web, :controller
 
+
   def index(conn, params) do
     render conn, "index.html", listing: get_listing(params["listing_name"])
   end

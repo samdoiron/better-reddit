@@ -12,22 +12,20 @@
   </head>
 
   <body>
-      <main>
-        <div class="site-top">
-          <h1 class="logo">Better Reddit</h1>
-          <nav>
-          <ul>
-            <li><a href="/r/all">All</a></li>
-            <li><a href="/r/programming">Programming</a></li>
-            <li><a href="/r/askreddit">Ask</a></li>
-            <li><a href="/r/funny">Funny</a></li>
-            <li><a href="/r/aww">Cute</a></li>
-          </ul>
-          </nav>
-        </div>
-        <div class="site-body">
-          <%= render @view_module, @view_template, assigns %>
-        </div>
+    <nav class="site-sidebar">
+        <ul>
+          <%= for subreddit <- sidebar_subreddits() do %>
+            <li><a href="/r/<%= subreddit %>"><%= subreddit %></a></li>
+          <% end %>
+        </ul>
+      </nav>
+
+      <div class="site-top">
+        <h1 class="logo">Better Reddit</h1>
+      </div>
+
+      <main class="site-body">
+            <%= render @view_module, @view_template, assigns %>
       </main>
   </body>
 </html>

@@ -9,11 +9,13 @@ html {
   color: white;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
+* {
+  box-sizing: border-box;
+}
+
+html, body {
   width: 60rem;
+  max-width: 100%;
   margin: 0 auto;
   line-height: 1.5;
 }
@@ -35,7 +37,7 @@ a {
 
 a:visited {
   text-decoration: line-through;
-  color: gray;
+  color:#777;
 }
 
 ul {
@@ -43,19 +45,13 @@ ul {
   padding: 0;
 }
 
-.site-top nav {
-  display: inline-block;
-}
-
-.site-top nav li {
-  display: inline-block;
-  padding-left: 1em;
-  padding-right: 1em;
-}
-
 .post {
   padding-bottom: .125em;  
   font-size: .85em;
+}
+
+.post:first-child h2 {
+  margin-top: 0;
 }
 
 .post-title {
@@ -68,4 +64,24 @@ ul {
 
 .post-source {
   color: black;
+}
+
+
+/* TODO This layout is hacky, but I can't think of
+   a better way to have the main content centered and this to the right. */
+.site-sidebar {
+  width: 10em;
+  position: absolute;
+  margin-left: -14em;
+  margin-top: 6em;
+}
+
+.site-sidebar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-sidebar li {
+  margin-bottom: .5em;
 }

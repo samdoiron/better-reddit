@@ -8,7 +8,6 @@ use Mix.Config
 # General application configuration
 config :better_reddit,
   ecto_repos: [],
-  http: [compress: true]
 
 # Configures the endpoint
 config :better_reddit, BetterReddit.Endpoint,
@@ -16,7 +15,8 @@ config :better_reddit, BetterReddit.Endpoint,
   secret_key_base: "9cewwyAcCIFBrzgxRspEKvXdBKt6/w1/vMOh8A+A0P6Kgy+yYAgnJu41CPHz8m1o",
   render_errors: [view: BetterReddit.ErrorView, accepts: ~w(html json)],
   pubsub: [name: BetterReddit.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+           adapter: Phoenix.PubSub.PG2],
+  http: [compress: true]
 
 # Configures Elixir's Logger
 config :logger, :console,

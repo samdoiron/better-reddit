@@ -44,6 +44,7 @@ defmodule BetterReddit.Mixfile do
      {:poison, "~> 2.0"},
      {:timex, "~> 3.0"},
      {:html_entities, "~> 0.3.0"},
+     {:exprof, "~> 0.2.0"},
      {:credo, "~>0.4", only: [:dev, :test]}]
   end
 

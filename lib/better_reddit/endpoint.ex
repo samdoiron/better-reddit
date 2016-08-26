@@ -1,6 +1,8 @@
 defmodule BetterReddit.Endpoint do
   use Phoenix.Endpoint, otp_app: :better_reddit
 
+  @seconds_in_one_year 31536000
+
   socket "/socket", BetterReddit.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
@@ -8,7 +10,8 @@ defmodule BetterReddit.Endpoint do
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/", from: :better_reddit, gzip: false,
+    at: "/", from: :better_reddit, gzip: true,
+    cache_control_for_etags: "max-age=#{@seconds_in_one_year}",
     only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the

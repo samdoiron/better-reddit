@@ -12,20 +12,6 @@
   </head>
 
   <body>
-    <nav class="site-sidebar">
-        <ul>
-          <%= for subreddit <- sidebar_subreddits() do %>
-            <li><a href="/r/<%= subreddit %>"><%= subreddit %></a></li>
-          <% end %>
-        </ul>
-      </nav>
-
-      <div class="site-top">
-        <h1 class="logo">Better Reddit</h1>
-      </div>
-
-      <main class="site-body">
-            <%= render @view_module, @view_template, assigns %>
-      </main>
+      <%= render @view_module, @view_template, assigns %>
   </body>
 </html>

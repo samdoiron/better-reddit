@@ -1,15 +1,36 @@
-<%= for post <- @listing.posts do %>
-  <article class="post">
-    <h2 class="post-title">
-      <a href="<%= rewrite_url(post.url) %>"><%= post.title %></a>
-    </h2>
-    <div class="post-via">
-      on
-      <span class="post-source"><%= post.subreddit %></span>
-      for
-      <span class="post-source">
-        <%= how_long_ago(post.created_timestamp) %>
-      </span>
-    </div>
-  </article>
-<% end %>
+
+<div class="site-top">
+  <h1 class="logo"><a href="/">Better Reddit</a></h1>
+  <a href="/" class="logo-small">BR</a>
+  <span>/</span>
+  <a href="/subreddits" class="subreddit"><%= @listing_name %></a>
+  <span>/</span>
+  <a href="/sorts" class="sort">Hot</a>
+</div>
+
+<div class="site-body">
+  <nav class="site-sidebar">
+    <ul>
+      <%= for subreddit <- sidebar_subreddits() do %>
+        <li><a href="/r/<%= subreddit %>"><%= subreddit %></a></li>
+      <% end %>
+    </ul>
+  </nav>
+  <main>
+    <%= for post <- @listing.posts do %>
+    <article class="post">
+      <h2 class="post-title">
+        <a href="<%= rewrite_url(post.url) %>"><%= post.title %></a>
+      </h2>
+      <div class="post-via">
+        on
+        <a class="post-source" href="/r/<%= post.subreddit %>"><%= post.subreddit %></a>
+        for
+        <span class="post-time">
+          <%= how_long_ago(post.created_timestamp) %>
+        </span>
+      </div>
+      </article>
+    <% end %>
+  </main>
+</div>

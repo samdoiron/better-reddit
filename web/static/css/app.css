@@ -23,7 +23,6 @@ body {
 .site-top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .logo {
@@ -36,8 +35,11 @@ a {
 }
 
 a:visited {
-  text-decoration: line-through;
   color:#777;
+}
+
+nav ul {
+  list-style-type: none;
 }
 
 ul {
@@ -59,29 +61,103 @@ ul {
 }
 
 .post-via {
-  color: gray;
+  color: #555;
 }
 
-.post-source {
+.post-source,
+.post-time {
   color: black;
 }
 
+.post-source {
+  font-weight: bold;
+}
+
+.site-top {
+  margin-left: 10em;
+}
+
+.site-body {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
 
 /* TODO This layout is hacky, but I can't think of
    a better way to have the main content centered and this to the right. */
 .site-sidebar {
   width: 10em;
-  position: absolute;
-  margin-left: -14em;
-  margin-top: 6em;
+}
+
+.site-body main {
+  flex: 1;
 }
 
 .site-sidebar ul {
-  list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
 .site-sidebar li {
   margin-bottom: .5em;
+}
+
+.site-menu-toggle {
+  display: none;
+}
+
+.logo-small,
+.logo-small:visited {
+  display: none;
+  color: white;
+  padding-left: .2em;
+  padding-right: .2em;
+}
+
+.site-top {
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.site-top > * {
+  margin-right: 1rem;
+}
+
+.subreddit,
+.sort {
+  border-bottom: 1px solid gray;
+}
+
+
+.site-topbar a {
+  border-bottom: 1px solid gray;
+}
+
+@media (max-width: 1024px) {
+  .logo {
+    display: none;
+  }
+
+  .logo-small {
+    display: block;
+    font-size: 1.5em;
+    color: white;
+    background: black;
+    font-weight: bold;
+  }
+
+  .site-sidebar {
+    display: none;
+  }
+
+  .site-menu-toggle {
+    display: block;
+  }
+
+  .site-top {
+    margin-left: 0;
+    margin-bottom: 1em;
+  }
 }

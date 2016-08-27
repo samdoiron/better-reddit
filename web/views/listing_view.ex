@@ -2,6 +2,26 @@ defmodule BetterReddit.ListingView do
   use BetterReddit.Web, :view
   use Timex
 
+
+  @sidebar_subreddits ~w(
+    Programming
+    AskReddit
+    Funny
+    Gifs
+    Videos
+    Technology
+    ShowerThoughts
+    ExplainLikeImFive
+    Overwatch
+    TodayILearned
+    AskScience
+    UpliftingNews
+  )
+
+  defp sidebar_subreddits do
+    @sidebar_subreddits |> Enum.sort 
+  end
+
   def how_long_ago(since) do
     now = Timex.now() |> Timex.to_unix()
 
@@ -10,9 +30,9 @@ defmodule BetterReddit.ListingView do
     days = div(hours, 24)
 
     cond do
-      days > 0 -> "#{days} days"
-      hours > 0 -> "#{hours} hours"
-      minutes > 0 -> "#{minutes} minutes"
+      days > 0 -> pluralize("day", days)
+      hours > 0 -> pluralize("hour", hours)
+      minutes > 0 -> pluralize("minute", minutes)
       :else -> "no time"
     end
   end
@@ -28,6 +48,9 @@ defmodule BetterReddit.ListingView do
       :else -> url
     end
   end
+
+  defp pluralize(word, number) when number == 1, do: "#{number} #{word}"
+  defp pluralize(word, number), do: "#{number} #{word}s"
 
   defp imgur?(uri) do
     String.ends_with?(uri.host, "imgur.com")

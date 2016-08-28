@@ -16,6 +16,7 @@ defmodule BetterReddit.ListingView do
     TodayILearned
     AskScience
     UpliftingNews
+    Pics
   )
 
   defp sidebar_subreddits do

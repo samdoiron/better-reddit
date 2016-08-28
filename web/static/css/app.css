@@ -23,9 +23,8 @@ body {
 .site-top {
   display: flex;
   align-items: center;
+  margin-bottom: 1em;
 }
-
-
 
 a {
   text-decoration: none;
@@ -34,6 +33,11 @@ a {
 
 a:visited {
   color:#777;
+}
+
+.logo {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .logo a {

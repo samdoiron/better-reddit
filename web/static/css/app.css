@@ -25,9 +25,7 @@ body {
   align-items: center;
 }
 
-.logo {
-  color: rgba(0,0,0,.75);
-}
+
 
 a {
   text-decoration: none;
@@ -36,6 +34,10 @@ a {
 
 a:visited {
   color:#777;
+}
+
+.logo a {
+  color: black;
 }
 
 nav ul {
@@ -130,7 +132,6 @@ ul {
 .sort {
   border-bottom: 1px solid gray;
 }
-
 
 .site-topbar a {
   border-bottom: 1px solid gray;

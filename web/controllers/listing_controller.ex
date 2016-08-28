@@ -3,12 +3,12 @@ defmodule BetterReddit.ListingController do
 
 
   def index(conn, params) do
-    render conn, "index.html", listing_name: params["listing_name"],
-                               listing: get_listing(params["listing_name"])
+    render_listing(conn, params["listing_name"] || "All")
   end
 
-  defp get_listing(nil) do
-    get_listing("all")
+  defp render_listing(conn, listing_name) do
+    render conn, "index.html", listing_name: listing_name,
+                               listing: get_listing(listing_name)
   end
 
   defp get_listing(name) do

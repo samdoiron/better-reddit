@@ -1,4 +1,7 @@
 exports.config = {
+  sourceMaps: 'absoluteUrl',
+  optimize: true,
+
   // See http://brunch.io/#documentation for docs.
   files: {
     javascripts: {

@@ -45,6 +45,7 @@ defmodule BetterReddit.Mixfile do
      {:timex, "~> 3.0"},
      {:html_entities, "~> 0.3.0"},
      {:exprof, "~> 0.2.0"},
+     {:floki, "~> 0.10.1"},
      {:credo, "~>0.4", only: [:dev, :test]}]
   end
 

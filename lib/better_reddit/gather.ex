@@ -4,12 +4,13 @@ defmodule BetterReddit.Gather do
   API and stores it in the database.
   """
 
+  alias BetterReddit.Schedule
   require Logger
 
   @reddit_api_timeout_ms 2_000
 
   def start_link do
-    case Task.start_link(fn -> run(load_subreddits()) end) do
+    case Task.start_link(fn -> run(load_priorities()) end) do
       {:ok, pid} ->
         Process.register(pid, __MODULE__)
         {:ok, pid}
@@ -17,12 +18,13 @@ defmodule BetterReddit.Gather do
     end
   end
 
-  def run(subreddits) do
-    for subreddit <- subreddits do
+  def run(priorities) do
+    priorities
+    |> Schedule.with_priorities()
+    |> Enum.each(fn (subreddit) ->
       sleep_timeout()
       update_subreddit(subreddit)
-    end
-    run(subreddits)
+    end)
   end
 
   defp update_subreddit(name) do
@@ -35,10 +37,16 @@ defmodule BetterReddit.Gather do
     :timer.sleep(@reddit_api_timeout_ms)
   end
 
-  defp load_subreddits do
-    case File.read("config/subreddits.txt") do
-      {:ok, content} -> content |> String.split("\n")
-      {:err, err} -> raise "could not load subreddit list: #{err}"
+  defp load_priorities do
+    case File.read("config/subreddits.json") do
+      {:ok, content} -> content |> Poison.decode!() |> make_priorities()
+      {:error, err} -> raise "could not load subreddit list: #{err}"
     end
+  end
+
+  defp make_priorities(subreddits) do
+    Enum.reduce(subreddits, %{}, fn (subreddit, priorities) ->
+      Map.put(priorities, subreddit["name"], subreddit["subscribers"])
+    end)
   end
 end

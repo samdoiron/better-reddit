@@ -20,7 +20,7 @@ defmodule BetterReddit.GatherSubreddits do
       :timer.sleep(@timeout_ms)
       subs ++ run(page + 1)
     else
-      subs
+      subs ++ [front_page()]
     end
   end
 
@@ -52,6 +52,10 @@ defmodule BetterReddit.GatherSubreddits do
       subscribers: subscribers,
       name: name
     }
+  end
+
+  defp front_page() do
+    %BetterReddit.Subreddit{name: "All", subscribers: 10_000_000, nsfw: false}
   end
 end
 

@@ -13,12 +13,17 @@ html {
   box-sizing: border-box;
 }
 
+#instantclick-bar {
+  background: red;
+}
+
 body {
   width: 60rem;
   max-width: 100%;
   margin: 0 auto;
   line-height: 1.5;
 }
+
 
 .site-top {
   display: flex;
@@ -32,12 +37,13 @@ a {
 }
 
 a:visited {
-  color:#777;
+  color: #666;
 }
 
 .logo {
   margin-top: 0;
   margin-bottom: 0;
+  font-weight: 100;
 }
 
 .logo a {
@@ -91,8 +97,6 @@ ul {
   justify-content: center;
 }
 
-/* TODO This layout is hacky, but I can't think of
-   a better way to have the main content centered and this to the right. */
 .site-sidebar {
   width: 10em;
 }
@@ -101,13 +105,17 @@ ul {
   flex: 1;
 }
 
-.site-sidebar ul {
+.site-sidebar > ul {
   margin: 0;
   padding: 0;
 }
 
 .site-sidebar li {
   margin-bottom: .5em;
+}
+
+.site-sidebar-item.is-current {
+  font-weight: bold;
 }
 
 .site-menu-toggle {
@@ -132,10 +140,17 @@ ul {
   margin-right: 1rem;
 }
 
-.subreddit,
-.sort {
-  padding: .25em 1em;
-  border-bottom: 1px solid gray;
+.site-top__sorts {
+  margin-left: auto;
+}
+
+.site-top__sort,
+.site-top__sort--current {
+  margin-right: 1rem;
+}
+
+.site-top__sort--current {
+  font-weight: bold;
 }
 
 @media (max-width: 1024px) {
@@ -157,6 +172,10 @@ ul {
 
   .site-menu-toggle {
     display: block;
+  }
+
+  .site-top__sorts {
+    display: none;
   }
 
   .site-top {

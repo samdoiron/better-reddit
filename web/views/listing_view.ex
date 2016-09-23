@@ -2,7 +2,6 @@ defmodule BetterReddit.ListingView do
   use BetterReddit.Web, :view
   use Timex
 
-
   @sidebar_subreddits ~w(
     Programming
     AskReddit

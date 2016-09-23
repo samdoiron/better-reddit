@@ -5,6 +5,7 @@ defmodule BetterReddit.Gather do
   """
 
   alias BetterReddit.Schedule
+  alias BetterReddit.Repo
   require Logger
 
   @reddit_api_timeout_ms 2_000
@@ -29,8 +30,11 @@ defmodule BetterReddit.Gather do
 
   defp update_subreddit(name) do
     Logger.debug("updating subreddit #{name}")
-    listing = BetterReddit.Reddit.HTTP.get_subreddit(name)
-    BetterReddit.Repo.put_listing(name, listing)
+    case BetterReddit.Reddit.HTTP.get_subreddit(name) do
+      {:ok, listing} -> Repo.put_listing(name, listing)
+      {:error, err} ->
+        Logger.warn("failed to fetch subreddit #{name}")
+    end
   end
 
   defp sleep_timeout do

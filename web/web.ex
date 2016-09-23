@@ -34,6 +34,7 @@ defmodule BetterReddit.Web do
       import Ecto
       import Ecto.Query
 
+      import BetterReddit.PageHelpers
       import BetterReddit.Router.Helpers
       import BetterReddit.Gettext
     end

@@ -1,0 +1,20 @@
+<article class="post">
+  <%= if @post.thumbnail != nil do %>
+    <img width="75px" class="post-thumbnail" src="<%= @post.thumbnail %>"/>
+  <% end %>
+  <div class="post-content">
+    <h2 class="post-title">
+      <a href="<%= rewrite_url(@post.url) %>"><%= @post.title %></a>
+    </h2>
+    <div class="post-via">
+      on
+      <a class="post-source" href="/r/<%= @post.subreddit %>">
+        <%= @post.subreddit %>
+      </a>
+      for
+      <span class="post-time">
+        <%= how_long_ago(@post.created_timestamp) %>
+      </span>
+    </div>
+  </div>
+</article>

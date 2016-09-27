@@ -33,19 +33,8 @@
   </nav>
   <main>
     <%= for post <- @listing.posts do %>
-    <article class="post">
-      <h2 class="post-title">
-        <a href="<%= rewrite_url(post.url) %>"><%= post.title %></a>
-      </h2>
-      <div class="post-via">
-        on
-        <a class="post-source" href="/r/<%= post.subreddit %>"><%= post.subreddit %></a>
-        for
-        <span class="post-time">
-          <%= how_long_ago(post.created_timestamp) %>
-        </span>
-      </div>
-      </article>
+      <%= render("post.html", 
+          post: post) %>
     <% end %>
   </main>
 </div>

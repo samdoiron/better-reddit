@@ -31,7 +31,20 @@ defmodule BetterReddit.Reddit.Parser do
       url: Map.get(post, "url") |> HtmlEntities.decode(),
       author: Map.get(post, "author"),
       subreddit: Map.get(post, "subreddit"),
-      created_timestamp: Map.get(post, "created_utc") |> trunc()
+      created_timestamp: Map.get(post, "created_utc") |> trunc(),
+      thumbnail: extract_thumbnail(post)
     }
+  end
+
+  defp extract_thumbnail(post) do
+    thumbnail = Map.get(post, "thumbnail")
+    case thumbnail do
+      "default" -> nil
+      "self" -> nil
+      "nsfw" -> nil
+      "image" -> nil
+      "" -> nil
+      _ -> thumbnail
+    end
   end
 end

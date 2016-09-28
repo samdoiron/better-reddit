@@ -1,10 +1,12 @@
 <article class="post">
   <%= if @post.thumbnail != nil do %>
-    <img width="75px" class="post-thumbnail" src="<%= @post.thumbnail %>"/>
+    <a href="<%= @post.url %>">
+      <img width="75px" class="post-thumbnail" src="<%= @post.thumbnail %>"/>
+    </a>
   <% end %>
   <div class="post-content">
     <h2 class="post-title">
-      <a href="<%= rewrite_url(@post.url) %>"><%= @post.title %></a>
+      <a href="<%= @post.url %>"><%= @post.title %></a>
     </h2>
     <div class="post-via">
       on

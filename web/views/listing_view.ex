@@ -36,37 +36,9 @@ defmodule BetterReddit.ListingView do
       :else -> "no time"
     end
   end
-
-  def rewrite_url(url) do
-    parsed = URI.parse(url)
-    cond do
-      imgur?(parsed) ->
-        cond do
-          imgur_comments?(parsed) -> imgur_image(parsed)
-          :else -> url
-        end
-      :else -> url
-    end
+  def rewrite_title(_title) do
   end
 
   defp pluralize(word, number) when number == 1, do: "#{number} #{word}"
   defp pluralize(word, number), do: "#{number} #{word}s"
-
-  defp imgur?(uri) do
-    String.ends_with?(uri.host, "imgur.com")
-  end
-
-  defp imgur_comments?(uri) do
-    uri.host == "imgur.com" and imgur_comment_extension?(uri.path)
-  end
-
-  defp imgur_comment_extension?(path) do
-    chars = String.to_charlist(path)
-    Enum.count(chars, &(&1 == '/')) == 1 and
-      Enum.count(chars, &(&1 == '.')) == 0
-  end
-
-  defp imgur_image(uri) do
-    "#https://i.{uri.host}#{uri.path}.png"
-  end
 end

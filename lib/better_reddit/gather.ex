@@ -31,8 +31,8 @@ defmodule BetterReddit.Gather do
   defp update_subreddit(name) do
     Logger.debug("updating subreddit #{name}")
     case BetterReddit.Reddit.HTTP.get_subreddit(name) do
-      {:ok, listing} -> Repo.put_listing(name, listing)
-      {:error, err} ->
+      {:ok, listing} -> save_listing(name, listing)
+      {:error, _} ->
         Logger.warn("failed to fetch subreddit #{name}")
     end
   end
@@ -52,5 +52,9 @@ defmodule BetterReddit.Gather do
     Enum.reduce(subreddits, %{}, fn (subreddit, priorities) ->
       Map.put(priorities, subreddit["name"], subreddit["subscribers"])
     end)
+  end
+
+  defp save_listing(name, listing) do
+    Repo.put_listing(name, listing)
   end
 end

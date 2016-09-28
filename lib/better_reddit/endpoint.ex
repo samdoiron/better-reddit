@@ -10,7 +10,7 @@ defmodule BetterReddit.Endpoint do
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/", from: :better_reddit, gzip: true,
+    at: "/", from: :better_reddit,
     cache_control_for_etags: "max-age=#{@seconds_in_one_year}",
     only: ~w(css fonts images js favicon.ico robots.txt)
 

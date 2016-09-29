@@ -5,16 +5,16 @@
   <a href="/subreddits" class="subreddit"><%= @listing_name %></a>
 
   <nav class="site-top__sorts">
-    <a class="site-top__sort--current" href="<%= @listing_name %>">
+    <a class="site-top__sort--current" href="#">
       Hot
     </a>
-    <a class="site-top__sort" href="<%= @listing_name %>/top-monthly">
+    <a class="site-top__sort" href="#">
       Top Daily
     </a>
-    <a class="site-top__sort" href="<%= @listing_name %>/top-monthly">
+    <a class="site-top__sort" href="#">
       Top Monthly
     </a>
-    <a class="site-top__sort" href="<%= @listing_name %>/top-monthly">
+    <a class="site-top__sort" href="#">
       Top All Time
     </a>
   </nav>
@@ -23,18 +23,18 @@
 <div class="site-body">
   <nav class="site-sidebar">
     <ul>
-      <%= for subreddit <- sidebar_subreddits() do %>
-        <li><%= render("site-sidebar-item.html",
-                       listing: subreddit,
-                       current_listing: @listing_name) %>
+      <%= for listing <- sidebar_subreddits() do %>
+        <li>
+        <%= link(listing, 
+                 to: listing_path(listing),
+                 class: listing_class(listing)) %>
         </li>
       <% end %>
     </ul>
   </nav>
   <main>
     <%= for post <- @listing.posts do %>
-      <%= render("post.html", 
-          post: post) %>
+      <%= render_post(post) %>
     <% end %>
   </main>
 </div>

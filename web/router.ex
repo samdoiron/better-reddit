@@ -14,11 +14,13 @@ defmodule BetterReddit.Router do
     plug :accepts, ["json"]
   end
 
+
   scope "/", BetterReddit do
     pipe_through :browser # Use the default browser stack
 
     get "/", ListingController, :index
-    get "/r/:listing_name", ListingController, :index
+
+    resources "/listings", ListingController, only: [:index, :show]
   end
 
   # Other scopes may use custom stacks.

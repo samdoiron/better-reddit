@@ -1,7 +1,0 @@
-<%= if @listing == @current_listing do %>
-  <a class="site-sidebar-item is-current" href="/r/<%= @listing %>">
-    <%= @listing %>
-  </a>
-<% else %>
-  <a class="site-sidebar-item" href="/r/<%= @listing %>"><%= @listing %></a>
-<% end %>

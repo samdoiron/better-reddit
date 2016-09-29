@@ -1,6 +1,8 @@
 defmodule BetterReddit.ListingView do
   use BetterReddit.Web, :view
   use Timex
+  alias BetterReddit.Endpoint
+  alias BetterReddit.Router
 
   @sidebar_subreddits ~w(
     Programming
@@ -18,7 +20,23 @@ defmodule BetterReddit.ListingView do
     Pics
   )
 
-  defp sidebar_subreddits do
+  def listing_path(listing) do
+    Router.Helpers.listing_path(Endpoint, :show, listing)
+  end
+
+  def listing_class(listing) do
+    if listing == @current_listing do
+      "site-sidebar-item is-current"
+    else
+      "site-sidebar-item"
+    end
+  end
+
+  def render_post(post) do
+    render("post.html", post: post)
+  end
+
+  def sidebar_subreddits do
     @sidebar_subreddits |> Enum.sort 
   end
 
@@ -36,6 +54,7 @@ defmodule BetterReddit.ListingView do
       :else -> "no time"
     end
   end
+
   def rewrite_title(_title) do
   end
 

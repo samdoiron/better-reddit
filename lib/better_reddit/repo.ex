@@ -1,23 +1,23 @@
 defmodule BetterReddit.Repo do
   @moduledoc ~S"""
-  Stores all post state for BetterReddit. Runs as a separate service,
-  so that it can be a location-independant service.
+  The primary Ecto storage repo.
   """
-  alias BetterReddit.Reddit.Listing
 
-  def start_link do
-    Agent.start_link(fn -> %{} end, name: __MODULE__)
+  use Ecto.Repo, otp_app: :better_reddit
+
+  def put_listing(_, _) do
   end
 
-  def put_listing(name, listing) do
-    Agent.update(__MODULE__, fn current ->
-      Map.put(current, String.downcase(name), listing)
-    end)
-  end
-
-  def get_listing(name) do
-    Agent.get(__MODULE__, fn listings ->
-      listings[String.downcase(name)] || %Listing{}
-    end)
+  def get_listing(_id) do
+    %BetterReddit.Reddit.Listing{
+      posts: [
+        %BetterReddit.Reddit.Post{
+          title: "hello",
+          url: "http://www.google.com",
+          subreddit: "foo",
+          thumbnail: nil
+        }
+      ]
+    }
   end
 end

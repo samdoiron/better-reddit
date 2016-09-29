@@ -19,7 +19,6 @@ defmodule BetterReddit.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", ListingController, :index
-
     resources "/listings", ListingController, only: [:index, :show]
   end
 

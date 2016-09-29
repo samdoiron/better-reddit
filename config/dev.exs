@@ -36,8 +36,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :better_reddit, BetterReddit.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "better_reddit_dev",
+  username: "better_reddit",
+  password: "better_reddit",
+  database: "better_reddit",
   hostname: "localhost",
   pool_size: 10

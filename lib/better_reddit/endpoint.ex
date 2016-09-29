@@ -41,5 +41,10 @@ defmodule BetterReddit.Endpoint do
     key: "_better_reddit_key",
     signing_salt: "0WvErGze"
 
+  # Must be before BetterReddit.Router
+  if Application.get_env(:better_reddit, :sql_sandbox) do
+    plug Phoenix.Ecto.SQL.Sandbox
+  end
+
   plug BetterReddit.Router
 end

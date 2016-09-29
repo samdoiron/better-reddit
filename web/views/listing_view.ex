@@ -24,8 +24,8 @@ defmodule BetterReddit.ListingView do
     Router.Helpers.listing_path(Endpoint, :show, listing)
   end
 
-  def listing_class(listing) do
-    if listing == @current_listing do
+  def listing_class(listing, current_listing) do
+    if listing == current_listing do
       "site-sidebar-item is-current"
     else
       "site-sidebar-item"

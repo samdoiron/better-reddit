@@ -27,7 +27,7 @@
         <li>
         <%= link(listing, 
                  to: listing_path(listing),
-                 class: listing_class(listing)) %>
+                 class: listing_class(listing, @listing_name)) %>
         </li>
       <% end %>
     </ul>

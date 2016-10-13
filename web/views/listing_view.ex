@@ -41,11 +41,10 @@ defmodule BetterReddit.ListingView do
   end
 
   def how_long_ago(since) do
-    now = Timex.now() |> Timex.to_unix()
-
-    minutes = div(now - since, 60)
-    hours = div(minutes, 60)
-    days = div(hours, 24)
+    now = Timex.now
+    minutes = Timex.diff(now, since, :minutes)
+    hours = Timex.diff(now, since, :hours)
+    days = Timex.diff(now, since, :days)
 
     cond do
       days > 0 -> pluralize("day", days)

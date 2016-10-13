@@ -1,21 +1,16 @@
 <article class="post">
-  <%= if @post.thumbnail != nil do %>
-    <a href="<%= @post.url %>">
-      <img width="75px" class="post-thumbnail" src="<%= @post.thumbnail %>"/>
-    </a>
-  <% end %>
   <div class="post-content">
     <h2 class="post-title">
       <a href="<%= @post.url %>"><%= @post.title %></a>
     </h2>
     <div class="post-via">
       on
-      <a class="post-source" href="/r/<%= @post.subreddit %>">
-        <%= @post.subreddit %>
+      <a class="post-source" href="/listing/<%= @post.topic %>">
+        <%= @post.topic %>
       </a>
       for
       <span class="post-time">
-        <%= how_long_ago(@post.created_timestamp) %>
+        <%= how_long_ago(@post.time_posted) %>
       </span>
     </div>
   </div>

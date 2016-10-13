@@ -19,7 +19,7 @@ defmodule BetterReddit.Mixfile do
   def application do
     [mod: {BetterReddit, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :httpoison]]
+                    :phoenix_ecto, :postgrex, :httpoison, :tzdata]]
   end
 
   # Specifies which paths to compile per environment.
@@ -46,6 +46,7 @@ defmodule BetterReddit.Mixfile do
      {:html_entities, "~> 0.3.0"},
      {:exprof, "~> 0.2.0"},
      {:floki, "~> 0.10.1"},
+     {:timex_ecto, "~> 3.0"},
      {:credo, "~>0.4", only: [:dev, :test]}]
   end
 

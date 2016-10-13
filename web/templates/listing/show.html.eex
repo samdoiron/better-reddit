@@ -2,7 +2,7 @@
   <h1 class="logo"><a href="/">Better Reddit</a></h1>
   <a href="/" class="logo-small">BR</a>
   <span>/</span>
-  <a href="/subreddits" class="subreddit"><%= @listing_name %></a>
+  <a href="/topics" class="subreddit"><%= @listing_name %></a>
 
   <nav class="site-top__sorts">
     <a class="site-top__sort--current" href="#">

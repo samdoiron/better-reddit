@@ -5,6 +5,7 @@ defmodule BetterReddit.Gather do
   """
 
   alias BetterReddit.Schedule
+  alias BetterReddit.Schemas.RedditPost
   alias BetterReddit.Repo
   require Logger
 
@@ -12,28 +13,28 @@ defmodule BetterReddit.Gather do
 
   def start_link do
     case Task.start_link(fn -> run(load_priorities()) end) do
-      {:ok, pid} ->
-        Process.register(pid, __MODULE__)
-        {:ok, pid}
+      {:ok, pid} -> process_started(pid)
       other -> other
     end
+  end
+
+  defp process_started(pid) do
+    Process.register(pid, __MODULE__)
+    {:ok, pid}
   end
 
   def run(priorities) do
     priorities
     |> Schedule.with_priorities()
-    |> Enum.each(fn (subreddit) ->
-      sleep_timeout()
-      update_subreddit(subreddit)
-    end)
+    |> Enum.each(&update_subreddit/1)
   end
 
   defp update_subreddit(name) do
+    sleep_timeout()
     Logger.debug("updating subreddit #{name}")
     case BetterReddit.Reddit.HTTP.get_subreddit(name) do
-      {:ok, listing} -> save_listing(name, listing)
-      {:error, _} ->
-        Logger.warn("failed to fetch subreddit #{name}")
+      {:ok, posts} -> insert_or_replace(posts)
+      {:error, _} -> Logger.warn("failed to fetch subreddit #{name}")
     end
   end
 
@@ -43,18 +44,22 @@ defmodule BetterReddit.Gather do
 
   defp load_priorities do
     case File.read("config/subreddits.json") do
-      {:ok, content} -> content |> Poison.decode!() |> make_priorities()
+      {:ok, content} -> parse_priorities(content)
       {:error, err} -> raise "could not load subreddit list: #{err}"
     end
   end
 
-  defp make_priorities(subreddits) do
-    Enum.reduce(subreddits, %{}, fn (subreddit, priorities) ->
+  defp parse_priorities(content) do
+    content
+    |> Poison.decode!()
+    |> Enum.reduce(%{}, fn (subreddit, priorities) ->
       Map.put(priorities, subreddit["name"], subreddit["subscribers"])
     end)
   end
 
-  defp save_listing(name, listing) do
-    Repo.put_listing(name, listing)
+  defp insert_or_replace(posts) do
+    posts
+    |> RedditPost.insert_or_replace_all()
+    |> Repo.transaction()
   end
 end

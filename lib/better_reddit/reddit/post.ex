@@ -1,9 +1,19 @@
 defmodule BetterReddit.Reddit.Post do
   @moduledoc ~S"""
-  Contains a subset of the data about a reddit post as returned
-  by the reddit API (from a listing).
+  A single reddit post, as returned by the reddit API.
   """
-  defstruct title: "", ups: 0, downs: 0, url: "",
-            author: "", subreddit: "", created_timestamp: 0,
-            thumbnail: ""
+
+  use Ecto.Schema
+  alias BetterReddit.Reddit.Post
+
+  schema "reddit_post" do
+    field :reddit_id, :string
+    field :title, :string
+    field :ups, :integer
+    field :downs, :integer
+    field :url, :string
+    field :author, :string
+    field :subreddit, :string
+    field :time_posted, Ecto.DateTime
+  end
 end

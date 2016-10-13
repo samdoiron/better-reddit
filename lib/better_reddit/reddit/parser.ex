@@ -1,5 +1,5 @@
 defmodule BetterReddit.Reddit.Parser do
-  alias BetterReddit.Reddit
+  alias BetterReddit.Schemas.RedditPost
 
   @moduledoc ~S"""
   Parser parser a Reddit API response, and returns an internal representation
@@ -11,7 +11,7 @@ defmodule BetterReddit.Reddit.Parser do
     |> Poison.decode!
     |> extract_posts()
 
-    {:ok, %Reddit.Listing{posts: posts}}
+    {:ok, posts}
   end
 
   defp extract_posts(json) do
@@ -24,27 +24,23 @@ defmodule BetterReddit.Reddit.Parser do
   defp parse_post(entry) do
     post = Map.get(entry, "data")
 
-    %Reddit.Post{
+    %RedditPost{
+      reddit_id: Map.get(post, "id"),
       title: Map.get(post, "title") |> HtmlEntities.decode(),
       ups: Map.get(post, "ups"),
       downs: Map.get(post, "downs"),
       url: Map.get(post, "url") |> HtmlEntities.decode(),
       author: Map.get(post, "author"),
       subreddit: Map.get(post, "subreddit"),
-      created_timestamp: Map.get(post, "created_utc") |> trunc(),
-      thumbnail: extract_thumbnail(post)
+      time_posted: extract_time_posted(post),
     }
   end
 
-  defp extract_thumbnail(post) do
-    thumbnail = Map.get(post, "thumbnail")
-    case thumbnail do
-      "default" -> nil
-      "self" -> nil
-      "nsfw" -> nil
-      "image" -> nil
-      "" -> nil
-      _ -> thumbnail
-    end
+  defp extract_time_posted(post) do
+    post
+    |> Map.get("created_utc")
+    |> trunc()
+    |> Integer.to_string()
+    |> Timex.parse!("{s-epoch}")
   end
 end

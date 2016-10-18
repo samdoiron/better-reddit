@@ -18,6 +18,7 @@ defmodule BetterReddit.Schemas.RedditPost do
     field :author, :string
     field :subreddit, :string
     field :time_posted, Timex.Ecto.DateTime
+    field :thumbnail, :string
   end
 
   @doc "Insert new rows, or _replace_ (NOT UPSERT) them if they exist"

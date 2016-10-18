@@ -33,6 +33,7 @@ defmodule BetterReddit.Reddit.Parser do
       author: Map.get(post, "author"),
       subreddit: Map.get(post, "subreddit"),
       time_posted: extract_time_posted(post),
+      thumbnail: extract_thumbnail(post)
     }
   end
 
@@ -42,5 +43,17 @@ defmodule BetterReddit.Reddit.Parser do
     |> trunc()
     |> Integer.to_string()
     |> Timex.parse!("{s-epoch}")
+  end
+
+  defp extract_thumbnail(post) do
+    thumbnail = Map.get(post, "thumbnail")
+    case thumbnail do
+      "default" -> nil
+      "self" -> nil
+      "nsfw" -> nil
+      "image" -> nil
+      "" -> nil
+      _ -> thumbnail
+    end
   end
 end

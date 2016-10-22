@@ -33,6 +33,8 @@
     </ul>
   </nav>
   <main>
+    <div class="js-post-preview post-preview"></div>
+    <div class="js-cover cover"></div>
     <%= for post <- @listing.posts do %>
       <%= render_post(post) %>
     <% end %>

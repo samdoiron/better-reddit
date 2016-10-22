@@ -1,4 +1,5 @@
 // Brunch automatically concatenates all files in your
+
 // watched paths. Those paths can be configured at
 // config.paths.watched in "brunch-config.js".
 //
@@ -13,6 +14,7 @@
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
 
+import './global'
 InstantClick.init()
 
 // Import local files
@@ -21,3 +23,4 @@ InstantClick.init()
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+import "./post_preview"

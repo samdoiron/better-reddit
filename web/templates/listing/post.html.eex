@@ -1,4 +1,4 @@
-<article class="post">
+<article class="post js-post">
   <%= if @post.thumbnail != nil do %>
     <a href="<%= @post.url %>">
       <img width="75px" class="post-thumbnail" src="<%= @post.thumbnail %>"/>
@@ -8,15 +8,18 @@
     <h2 class="post-title">
       <a href="<%= @post.url %>"><%= @post.title %></a>
     </h2>
-    <div class="post-via">
-      on
-      <a class="post-source" href="/listing/<%= @post.topic %>">
-        <%= @post.topic %>
-      </a>
-      for
-      <span class="post-time">
-        <%= how_long_ago(@post.time_posted) %>
-      </span>
+    <div class="post-meta">
+        <div class="post-via">
+            on
+            <a class="post-source" href="<%= listing_path(@post.topic) %>">
+                <%= @post.topic %>
+            </a>
+            for
+            <span class="post-time">
+                <%= how_long_ago(@post.time_posted) %>
+            </span>
+        </div>
+        <a href="#" class="js-open-preview post-comments">comments</a>
     </div>
   </div>
 </article>

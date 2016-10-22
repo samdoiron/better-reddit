@@ -9,6 +9,7 @@ defmodule BetterReddit.Schemas.Post do
 
   @primary_key false
   schema "post" do
+    field :source_id, :string
     field :title, :string
     field :source, :string
     field :url, :string
@@ -24,5 +25,18 @@ defmodule BetterReddit.Schemas.Post do
     |> where([u], u.time_posted > ago(1, "day"))
     |> order_by([u], [desc: u.score])
     |> Repo.all()
+  end
+
+  def get_by_source_and_id(source, id) do
+    post = Post
+    |> where([u], u.source == ^source)
+    |> where([u], u.source_id == ^id)
+    |> Repo.one()
+
+    if post do
+      {:ok, post}
+    else
+      {:error, :not_found}
+    end
   end
 end

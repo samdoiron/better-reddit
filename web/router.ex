@@ -20,6 +20,7 @@ defmodule BetterReddit.Router do
 
     get "/", ListingController, :index
     resources "/listings", ListingController, only: [:index, :show]
+    resources "/posts", PostController, only: [:show]
   end
 
   # Other scopes may use custom stacks.

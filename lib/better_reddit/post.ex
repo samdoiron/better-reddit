@@ -14,5 +14,5 @@ defmodule BetterReddit.Post do
 
   defp split_id(composite_id) do
     String.split(composite_id, "-")
-  ends
+  end
 end

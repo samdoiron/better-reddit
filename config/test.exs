@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :better_reddit, BetterReddit.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "better_reddit_test",
+  password: "pass",
   database: "better_reddit_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

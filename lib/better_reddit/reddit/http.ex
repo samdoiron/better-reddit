@@ -4,7 +4,7 @@ defmodule BetterReddit.Reddit.HTTP do
   delegates to a Fetcher-backed copy of the actual reddit API to perform
   requsts.
   """
-  alias BetterReddit.Reddit.Parser
+  alias BetterReddit.Reddit.ListingParser
 
   @behaviour BetterReddit.Reddit
 
@@ -20,7 +20,7 @@ defmodule BetterReddit.Reddit.HTTP do
 
   defp fetch_and_parse_listing(url) do
     case @fetcher.fetch(url) do
-      {:ok, listing} -> Parser.parse_listing(listing)
+      {:ok, listing} -> ListingParser.parse(listing)
       err -> err
     end
   end

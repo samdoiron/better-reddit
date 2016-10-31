@@ -7,10 +7,13 @@ defmodule BetterReddit.Schemas.RedditPost do
   import Ecto.Query, only: [from: 2]
   alias Ecto.Multi
   alias BetterReddit.Schemas.RedditPost
+  alias BetterReddit.Schemas.RedditComment
 
   @primary_key {:reddit_id, :string, []}
 
   schema "reddit_post" do
+    has_many :comments, RedditComment
+
     field :title, :string
     field :ups, :integer
     field :downs, :integer
@@ -30,11 +33,17 @@ defmodule BetterReddit.Schemas.RedditPost do
     # Ecto insert_all only operates on maps or keywords, not structs
     row_maps = rows
     |> Enum.map(&Map.from_struct/1)
-    |> Enum.map(&(Map.delete(&1, :"__meta__")))
+    |> Enum.map(&remove_magic_ecto_values/1)
 
     multi
     |> delete_all_by_id(pluck_ids(rows))
     |> Multi.insert_all(:insert_posts, RedditPost, row_maps)
+  end
+
+  # Values established via joins and metadata must be removed
+  @magic_keys [:"__meta__", :comments]
+  defp remove_magic_ecto_values(map) do
+    Enum.reduce(@magic_keys, map, &(Map.delete(&2, &1)))
   end
 
   defp pluck_ids(rows), do: for r <- rows, do: r.reddit_id

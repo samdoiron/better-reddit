@@ -90,10 +90,6 @@ ul {
     color: black;
 }
 
-.post-comments {
-    border-bottom: 1px solid gray;
-}
-
 .post-source {
     font-weight: bold;
 }
@@ -212,7 +208,7 @@ ul {
     background: white;
 
     transform: translateX(100%);
-    transition: transform .25s;
+    transition: transform .33s;
     width: 40rem;
     z-index: 200;
 }

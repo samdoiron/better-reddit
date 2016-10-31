@@ -1,4 +1,4 @@
-defmodule BetterReddit.Reddit.Parser do
+defmodule BetterReddit.Reddit.ListingParser do
   alias BetterReddit.Schemas.RedditPost
 
   @moduledoc ~S"""
@@ -6,12 +6,8 @@ defmodule BetterReddit.Reddit.Parser do
   of the parsed data.
   """
 
-  def parse_listing(listing) do
-    posts = listing
-    |> Poison.decode!
-    |> extract_posts()
-
-    {:ok, posts}
+  def parse(listing) do
+    {:ok, listing |> Poison.decode!() |> extract_posts()}
   end
 
   defp extract_posts(json) do
@@ -55,5 +51,11 @@ defmodule BetterReddit.Reddit.Parser do
       "" -> nil
       _ -> thumbnail
     end
+  end
+
+  defp extract_comments(json) do
+    post
+    |> Map.get("data")
+    |> Map.get("children")
   end
 end

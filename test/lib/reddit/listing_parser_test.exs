@@ -1,36 +1,37 @@
-defmodule BetterReddit.ParserTest do
+defmodule BetterReddit.ListingParserTest do
   use ExUnit.Case
-  alias BetterReddit.Reddit.Parser
+  alias BetterReddit.Reddit.ListingParser
   alias BetterReddit.Reddit
+  alias BetterReddit.Schemas
 
   setup do
     listing = File.read!("test/lib/reddit/reddit_hot.json")
     {:ok, listing: listing}
   end
 
-  test "parse_listing has correct number of posts", %{listing: listing} do
-    {:ok, parsed} = Parser.parse_listing(listing)
-    assert 25 == Enum.count(parsed.posts)
+  test "parse has correct number of posts", %{listing: listing} do
+    {:ok, parsed} = ListingParser.parse(listing)
+    assert 25 == Enum.count(parsed)
   end
 
-  test "parse_listing has no empty titles", %{listing: listing} do
-    {:ok, %Reddit.Listing{posts: posts}} = Parser.parse_listing(listing)
+  test "parse has no empty titles", %{listing: listing} do
+    {:ok, posts} = ListingParser.parse(listing)
     Enum.each(posts, fn (post) ->
       assert nil != post.title
       assert "" != post.title
     end)
   end
 
-  test "parse_listing entries have a url", %{listing: listing} do
-    {:ok, %Reddit.Listing{posts: posts}} = Parser.parse_listing(listing)
+  test "parse entries have a url", %{listing: listing} do
+    {:ok, posts} = ListingParser.parse(listing)
     Enum.each(posts, fn (post) ->
       assert nil != post.url
       assert "" != post.url
     end)
   end
 
-  test "parse_listing entries have an author", %{listing: listing} do
-    {:ok, %Reddit.Listing{posts: posts}} = Parser.parse_listing(listing)
+  test "parse entries have an author", %{listing: listing} do
+    {:ok, posts} = ListingParser.parse(listing)
     Enum.each(posts, fn (post) ->
       assert nil != post.author
       assert "" != post.author
@@ -62,17 +63,16 @@ defmodule BetterReddit.ParserTest do
 
     input = input_values
     |> Enum.map(fn (value) ->
-      set_property.(%Reddit.Post{}, value)
+      set_property.(basic_post(), value)
     end)
     |> create_listing()
 
     output_posts = output_values
     |> Enum.map(fn (value) ->
-      set_property.(%Reddit.Post{}, value)
+      set_property.(basic_post(), value)
     end)
-    output_listing = %Reddit.Listing{posts: output_posts}
 
-    assert {:ok, output_listing} == Parser.parse_listing(input)
+    assert {:ok, output_posts} == ListingParser.parse(input)
   end
 
   defp create_listing(posts) do
@@ -94,7 +94,15 @@ defmodule BetterReddit.ParserTest do
       "url" => post.url,
       "author" => post.author,
       "subreddit" => post.subreddit,
-      "created_utc" => post.created_timestamp
+      "created_utc" => Timex.to_unix(post.time_posted)
+    }
+  end
+
+  defp basic_post do
+    %Schemas.RedditPost{
+      title: "",
+      url: "",
+      time_posted: DateTime.from_unix!(0)
     }
   end
 end

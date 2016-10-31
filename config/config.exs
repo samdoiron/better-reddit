@@ -5,6 +5,13 @@
 # is restricted to this project.
 use Mix.Config
 
+config :better_reddit, BetterReddit.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "better_reddit_repo",
+  username: "user",
+  password: "pass",
+  hostname: "localhost"
+
 # General application configuration
 config :better_reddit,
   ecto_repos: [BetterReddit.Repo]

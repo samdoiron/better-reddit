@@ -209,10 +209,11 @@ ul {
 
     width: 40rem;
     z-index: 200;
+    display: none;
 }
 
 .post-preview.is-open {
-    transform: translateX(0%);
+    display: block;
 }
 
 .cover {

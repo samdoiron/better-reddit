@@ -207,8 +207,6 @@ ul {
     bottom: 0;
     background: white;
 
-    transform: translateX(100%);
-    transition: transform .33s;
     width: 40rem;
     z-index: 200;
 }
@@ -227,11 +225,9 @@ ul {
 
     opacity: 0;
     background: black;
-    transition: transform 0s .33s, opacity .33s;
 }
 
 .cover.is-active {
     transform: none;
     opacity: .5;
-    transition: opacity .33s;
 }

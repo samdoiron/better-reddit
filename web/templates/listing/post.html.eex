@@ -1,25 +1,27 @@
-<article class="post js-post">
+<article class="listing-item js-listing-item">
   <%= if @post.thumbnail != nil do %>
     <a href="<%= @post.url %>">
-      <img width="75px" class="post-thumbnail" src="<%= @post.thumbnail %>"/>
+      <img width="75px" class="listing-item-thumbnail" src="<%= @post.thumbnail %>"/>
     </a>
   <% end %>
-  <div class="post-content">
-    <h2 class="post-title">
+  <div class="listing-item-content">
+    <h2 class="listing-item-title">
       <a href="<%= @post.url %>"><%= @post.title %></a>
     </h2>
-    <div class="post-meta">
-        <div class="post-via">
+    <div class="listing-item-meta">
+        <div class="listing-item-via">
             on
-            <a class="post-source" href="<%= listing_path(@post.topic) %>">
+            <a class="listing-item-source" href="<%= listing_path(@post.topic) %>">
                 <%= @post.topic %>
             </a>
             for
-            <span class="post-time">
+            <span class="listing-item-time">
                 <%= how_long_ago(@post.time_posted) %>
             </span>
+            <span>(<%= domain(@post.url) %>)</span>
         </div>
-        <a href="#" class="js-open-preview post-comments">comments</a>
+        <a data-no-instant href="<%= get_post_path(@post) %>"
+           class="js-open-preview listing-item-comments">comments</a>
     </div>
   </div>
 </article>

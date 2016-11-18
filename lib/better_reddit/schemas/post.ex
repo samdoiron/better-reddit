@@ -24,6 +24,7 @@ defmodule BetterReddit.Schemas.Post do
     |> where([u], ilike(u.topic, ^topic))
     |> where([u], u.time_posted > ago(1, "day"))
     |> order_by([u], [desc: u.score])
+    |> limit(25)
     |> Repo.all()
   end
 

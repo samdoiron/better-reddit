@@ -1,5 +1,6 @@
 import {onReady} from './events';
 import {lockScroll, unlockScroll} from './page';
+import * as Net from './net';
 import * as DOM from './dom';
 
 const CONFIG = {
@@ -38,17 +39,20 @@ function hideCover() {
   DOM.removeClass(getCover(), CONFIG.classes.cover.isActive);
 }
 
-function loadPreview() {
-}
-
 function closePostPreview() {
+  getPostPreview().innerHTML = '';
   hideCover();
   unlockScroll();
   DOM.removeClass(getPostPreview(),
                   CONFIG.classes.postPreview.isOpen);
 }
 
-function openPostPreview() {
+function loadPreview(url) {
+  Net.loadUrlIntoElement(url + '/embed', getPostPreview());
+}
+
+function openPostPreview(url) {
+  loadPreview(url);
   showCover();
   lockScroll();
   DOM.addClass(getPostPreview(),
@@ -56,21 +60,25 @@ function openPostPreview() {
 }
 
 function isPostPreview(element) {
-  return element.classList.contains('.js-post-preview');
+  return element.classList.contains(CONFIG.classes.postPreview);
+}
+
+function isNewTabOpenAttempt(e) {
+  return e.ctrlKey || e.shiftKey || e.metaKey || (e.button && e.button == 1);
 }
 
 onReady(() => {
-  document.body.addEventListener('click', e => {
-    if (!isPostPreview(e.target)) {
-    }
-  });
+  let cover = getCover();
+  if (cover) {
+    cover.on('click', closePostPreview);
+  }
 
-  getCover().addEventListener('click', closePostPreview);
-
-  DOM.behave('.js-open-preview', post => {
-    post.on('click', e => {
-      e.preventDefault();
-      openPostPreview();
+  DOM.behave('.js-open-preview', link => {
+    link.on('click', e => {
+      if (!isNewTabOpenAttempt(e)){
+        e.preventDefault();
+        openPostPreview(e.target.href);
+      }
     });
   });
 });

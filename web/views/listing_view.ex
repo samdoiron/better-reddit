@@ -3,6 +3,7 @@ defmodule BetterReddit.ListingView do
   use Timex
   alias BetterReddit.Endpoint
   alias BetterReddit.Router
+  alias BetterReddit.Post
 
   @sidebar_subreddits ~w(
     Programming
@@ -36,8 +37,17 @@ defmodule BetterReddit.ListingView do
     render("post.html", post: post)
   end
 
+  def get_post_path(post) do
+    post_path(Endpoint, :show, Post.get_id(post))
+  end
+
   def sidebar_subreddits do
     @sidebar_subreddits |> Enum.sort 
+  end
+
+  def domain(url) do
+    uri = URI.parse(url)
+    uri.host
   end
 
   def how_long_ago(since) do
@@ -52,9 +62,6 @@ defmodule BetterReddit.ListingView do
       minutes > 0 -> pluralize("minute", minutes)
       :else -> "no time"
     end
-  end
-
-  def rewrite_title(_title) do
   end
 
   defp pluralize(word, number) when number == 1, do: "#{number} #{word}"

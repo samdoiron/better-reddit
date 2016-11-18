@@ -4,17 +4,17 @@
   <span>/</span>
   <a href="/topics" class="subreddit"><%= @listing_name %></a>
 
-  <nav class="site-top__sorts">
-    <a class="site-top__sort--current" href="#">
+  <nav class="site-top-sorts">
+    <a class="site-top-sort is-current" href="#">
       Hot
     </a>
-    <a class="site-top__sort" href="#">
+    <a class="site-top-sort" href="#">
       Top Daily
     </a>
-    <a class="site-top__sort" href="#">
+    <a class="site-top-sort" href="#">
       Top Monthly
     </a>
-    <a class="site-top__sort" href="#">
+    <a class="site-top-sort" href="#">
       Top All Time
     </a>
   </nav>
@@ -33,7 +33,7 @@
     </ul>
   </nav>
   <main>
-    <div class="js-post-preview post-preview"></div>
+    <div class="js-post-preview postPreview"></div>
     <div class="js-cover cover"></div>
     <%= for post <- @listing.posts do %>
       <%= render_post(post) %>

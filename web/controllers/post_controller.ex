@@ -14,6 +14,20 @@ defmodule BetterReddit.PostController do
     end
   end
 
+  def embed(conn, %{ "id" => post_id }) do
+    case Post.get_by_id(post_id) do
+      {:ok, post} -> render_embed(conn, post)
+      {:error, :not_found} -> render_404(conn)
+      _ -> render_error(conn)
+    end
+  end
+
+  defp render_embed(conn, post) do
+    conn
+    |> put_layout(false)
+    |> render_post(post)
+  end
+
   defp render_post(conn, post) do
     conn
     |> put_title(post.title)
@@ -27,6 +41,6 @@ defmodule BetterReddit.PostController do
   end
 
   defp render_error(conn) do
-    text conn, "uh oh"
+    text conn, "Could not find post"
   end
 end

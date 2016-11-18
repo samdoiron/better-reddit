@@ -14,10 +14,7 @@ export function select(selector) {
 
 export function selectOne(selector) {
   var all = document.querySelectorAll(selector);
-  if (all.length == 0) {
-    throw new Error('selectOne: can\'t find ' + selecor);
-  }
-  return all[0];
+  return all[0] || null;
 }
 
 export function addClass(element, klass) {

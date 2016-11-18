@@ -64,7 +64,7 @@ ul {
     padding: 0;
 }
 
-.post {
+.listing-item {
     display: flex;
     padding-bottom: .125em;  
     font-size: .85em;
@@ -72,33 +72,33 @@ ul {
     margin-bottom: 1em;
 }
 
-.post:first-child h2 {
+.listing-item:first-child h2 {
     margin-top: 0;
 }
 
-.post-title {
+.listing-item-title {
     font-size: 1.3em;
     margin: 0;
 }
 
-.post-via {
+.listing-item-via {
     color: #555;
 }
 
-.post-source,
-.post-time {
+.listing-item-source,
+.listing-item-time {
     color: black;
 }
 
-.post-source {
+.listing-item-source {
     font-weight: bold;
 }
 
-.post-thumbnail {
+.listing-item-thumbnail {
     margin-right: 1em;
 }
 
-.post-content {
+.listing-item-content {
     flex: 1;
 }
 
@@ -156,16 +156,15 @@ ul {
     margin-right: 1rem;
 }
 
-.site-top__sorts {
+.site-top-sorts {
     margin-left: auto;
 }
 
-.site-top__sort,
-.site-top__sort--current {
+.site-top-sort {
     margin-right: 1rem;
 }
 
-.site-top__sort--current {
+.site-top-sort.is-current {
     font-weight: bold;
 }
 
@@ -190,7 +189,7 @@ ul {
         display: block;
     }
 
-    .site-top__sorts {
+    .site-top-sorts {
         display: none;
     }
 
@@ -200,19 +199,23 @@ ul {
     }
 }
 
-.post-preview {
+.postPreview {
     position: fixed;
     right: 0;
     top: 0;
     bottom: 0;
-    background: white;
+    overflow-y: scroll;
 
-    width: 40rem;
+    background: white;
+    padding: 1.5rem;
+
+    width: 38.1%; /* dat golden ratio */
+
     z-index: 200;
     display: none;
 }
 
-.post-preview.is-open {
+.postPreview.is-open {
     display: block;
 }
 
@@ -226,9 +229,23 @@ ul {
 
     opacity: 0;
     background: black;
+    transition: opacity .25s;
 }
 
 .cover.is-active {
     transform: none;
     opacity: .5;
+}
+
+.post-title {
+    font-size: 1.25em;
+    margin-top: 0;
+}
+
+.post-embed {
+    width: 100%;
+}
+
+.post-embed.is-iframe {
+    height: 25em;
 }

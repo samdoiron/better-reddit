@@ -1,6 +1,8 @@
 defmodule BetterReddit.Post do
   alias BetterReddit.Schemas
 
+  def get_id(post), do: "#{post.source}-#{post.source_id}"
+
   def get_by_id(composite_id) do
     case split_id(composite_id) do
       [source, id] -> Schemas.Post.get_by_source_and_id(source, id)

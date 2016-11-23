@@ -235,24 +235,6 @@ ul {
     box-shadow: 0 16px 16px rgba(0,0,0,.2);
 }
 
-.cover {
-    position: fixed;
-    top : 0;
-    left : 0;
-    right: 0;
-    bottom: 0;
-    transform: translateX(-100%);
-
-    opacity: 0;
-    background: black;
-    transition: opacity .25s;
-}
-
-.cover.is-active {
-    transform: none;
-    /*opacity: .5;*/
-}
-
 .post-title {
     font-size: 1.25em;
     margin-top: 0;
@@ -264,12 +246,12 @@ ul {
 
 img.post-embed {
     opacity: 0;
-    transition: opacity 300ms, filter 1000ms;
-    filter: saturate(0%);
+    transition: opacity 300ms, filter 600ms;
+    filter: saturate(50%) contrast(200%);
 }
 
 img.post-embed.is-loaded {
-    filter: saturate(100%);
+    filter: none;
     opacity: 1;
 }
 

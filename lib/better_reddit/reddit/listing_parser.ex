@@ -48,6 +48,7 @@ defmodule BetterReddit.Reddit.ListingParser do
       "self" -> nil
       "nsfw" -> nil
       "image" -> nil
+      "spoiler" -> nil
       "" -> nil
       _ -> thumbnail
     end

@@ -16,6 +16,7 @@ defmodule BetterReddit.Schemas.Post do
     field :author, :string
     field :topic, :string
     field :thumbnail, :string
+    field :score, :integer
     field :time_posted, Timex.Ecto.DateTime
   end
 

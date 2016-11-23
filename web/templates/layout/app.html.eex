@@ -8,7 +8,10 @@
     <meta name="author" content="Samuel Doiron">
 
     <title><%= @conn.assigns[:page_title] %> - Better Reddit</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
     <style><%= raw site_css() %></style>
+
     <script data-no-instant async defer src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </head>
 

@@ -32,7 +32,7 @@
       <% end %>
     </ul>
   </nav>
-  <main>
+  <main class="listing">
     <div class="js-post-preview postPreview"></div>
     <div class="js-cover cover"></div>
     <%= for post <- @listing.posts do %>

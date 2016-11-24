@@ -66,7 +66,6 @@ onReady(() => {
 
   DOM.behave('.js-open-preview', link => {
     link.on('click', e => {
-      console.log('clock');
       if (!isNewTabOpenAttempt(e)){
         e.preventDefault();
         openPostPreview(e.target.href);

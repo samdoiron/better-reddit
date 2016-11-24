@@ -23,7 +23,9 @@ defmodule BetterReddit.EmbedView do
   end
 
   defp imgur?(uri) do
-    uri.host == "imgur.com" && String.match?(uri.path, ~r/\/[a-zA-Z0-9]\/?/)
+    is_imgur = uri.host == "imgur.com" || uri.host == "m.imgur.com"
+    is_file = String.match?(uri.path, ~r/\/[a-zA-Z0-9]\/?/)
+    is_imgur && is_file
   end
 
   defp handle_imgur(uri) do

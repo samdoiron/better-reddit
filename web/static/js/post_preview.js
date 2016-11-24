@@ -5,16 +5,11 @@ import * as DOM from './dom';
 const CONFIG = {
   selectors: {
     postPreview: '.js-post-preview',
-    cover: '.js-cover'
   },
 
   classes: {
-    postPreview: {
-      isOpen: 'is-open'
-    },
-    cover: {
-      isActive: 'is-active'
-    },
+    postPreview: 'js-post-preview',
+    postPreviewOpen: 'is-open'
   }
 }
 
@@ -26,7 +21,7 @@ function getPostPreview() {
 function closePostPreview() {
   getPostPreview().innerHTML = '';
   DOM.removeClass(getPostPreview(),
-                  CONFIG.classes.postPreview.isOpen);
+                  CONFIG.classes.postPreviewOpen);
 }
 
 function loadPreview(url) {
@@ -36,7 +31,7 @@ function loadPreview(url) {
 function openPostPreview(url) {
   loadPreview(url);
   DOM.addClass(getPostPreview(),
-               CONFIG.classes.postPreview.isOpen);
+               CONFIG.classes.postPreviewOpen);
 }
 
 function isPostPreview(element) {
@@ -47,8 +42,27 @@ function isNewTabOpenAttempt(e) {
   return e.ctrlKey || e.shiftKey || e.metaKey || (e.button && e.button == 1);
 }
 
+function isPostPreview(node) {
+  return node.classList.contains(CONFIG.classes.postPreview);
+}
+
+function isChildOfPostPreview(initialNode) {
+  let node = initialNode; 
+  while (node !== document.body) {
+    if (isPostPreview(node)) {
+      return true;
+    }
+    node = node.parentNode;
+  }
+  return false;
+}
+
 onReady(() => {
-  document.on('click', closePostPreview);
+  document.body.on('click', e => {
+    if (!isChildOfPostPreview(e.target)) {
+      closePostPreview();
+    }
+  });
 
   DOM.behave('.js-open-preview', link => {
     link.on('click', e => {

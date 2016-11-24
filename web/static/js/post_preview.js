@@ -48,7 +48,7 @@ function isPostPreview(node) {
 
 function isChildOfPostPreview(initialNode) {
   let node = initialNode; 
-  while (node !== document.body) {
+  while (node !== document.documentElement) {
     if (isPostPreview(node)) {
       return true;
     }
@@ -58,7 +58,7 @@ function isChildOfPostPreview(initialNode) {
 }
 
 onReady(() => {
-  document.body.on('click', e => {
+  document.documentElement.on('click', e => {
     if (!isChildOfPostPreview(e.target)) {
       closePostPreview();
     }

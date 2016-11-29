@@ -4,12 +4,14 @@ defmodule BetterReddit.Post do
 
   use GenServer
 
+  @cache_ms 120_000
+
   def start_link do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
   def init(_args) do
-    {:ok, cache} = Cache.start_link(:post_cache)
+    {:ok, cache} = Cache.start_link(:post_cache, @cache_ms)
     {:ok, [cache: cache]}
   end
 

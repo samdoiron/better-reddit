@@ -43,12 +43,12 @@ defmodule BetterReddit.EmbedView do
   end
 
   def gfycat?(uri) do
-    uri.host == "gfycat.com"
+    uri.host == "gfycat.com" || uri.host == "www.gfycat.com"
   end
 
   def handle_gfycat(uri) do
     id = String.split(uri.path, "/") |> Enum.at(1)
-    render_iframe(%{ uri | path: "/ifr/#{id}" })
+    render_iframe(make_https(%{ uri | path: "/ifr/#{id}" }))
   end
 
   def youtube?(uri) do
@@ -86,5 +86,9 @@ defmodule BetterReddit.EmbedView do
 
   defp imgur_id(uri) do
     Regex.run(~r/[a-zA-Z0-9]+/, uri.path) |> List.first()
+  end
+
+  defp make_https(uri) do
+    %{ uri | scheme: "https", port: 443 }
   end
 end

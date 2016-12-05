@@ -38,7 +38,7 @@ defmodule BetterReddit.ListingView do
   end
 
   def thumbnail_url(post) do
-    "/thumbs/#{post.thumbnail}"
+    "/thumbnails/#{post.thumbnail}"
   end
 
   def get_post_path(post) do

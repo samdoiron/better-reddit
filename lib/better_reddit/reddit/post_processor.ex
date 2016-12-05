@@ -9,8 +9,6 @@ defmodule BetterReddit.Reddit.PostProcessor do
     {new, not_new} = split_new_and_old(posts)
     insert_posts(new)
     update_posts(not_new)
-
-    Enum.each(new, &after_insert/1)
   end
 
   defp insert_posts(posts) do
@@ -22,6 +20,7 @@ defmodule BetterReddit.Reddit.PostProcessor do
 
   # run after the first insert of a post
   defp after_insert(post) do
+    Logger.debug("running after_insert for reddit post #{post.reddit_id}")
     if has_thumbnail?(post) do
       {:ok, _ } = Task.start_link(fn -> download_thumbnail(post) end)
     end
@@ -38,7 +37,7 @@ defmodule BetterReddit.Reddit.PostProcessor do
       {:ok, _} ->
         Logger.debug("downloaded thumbnail for post #{post.reddit_id}")
       other ->
-        IO.puts("failed to download thumbnail")
+        IO.puts("failed to download thumbnail for post #{post.reddit_id}")
         other
     end
   end

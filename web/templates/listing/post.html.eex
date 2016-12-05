@@ -1,7 +1,7 @@
 <article class="listing-item js-listing-item">
   <%= if @post.thumbnail != nil do %>
     <a href="<%= thumbnail_url(@post) %>">
-      <span style="background-image: url(<%= @post.thumbnail %>)" class="listing-item-thumbnail"></span>
+      <span style="background-image: url(<%= thumbnail_url(@post) %>)" class="listing-item-thumbnail"></span>
     </a>
   <% end %>
   <div class="listing-item-content">

@@ -12,7 +12,7 @@ defmodule BetterReddit.Repo.Migrations.AddThumbnailFileNameToPost do
         subreddit::VARCHAR(255) as topic,
         thumbnail.file_name::VARCHAR(255) as thumbnail
         FROM reddit_post
-        LEFT JOIN thumbnail
+        LEFT OUTER JOIN thumbnail
           ON reddit_post.reddit_id = thumbnail.reddit_post_id
     )
     """)
@@ -27,7 +27,7 @@ defmodule BetterReddit.Repo.Migrations.AddThumbnailFileNameToPost do
         time_posted::timestamp, 'reddit'::VARCHAR(255) as source,
         (ups - downs)::integer as score,
         subreddit::VARCHAR(255) as topic,
-        thumbnail_url as thumbnail::text
+        thumbnail_url::text as thumbnail
         FROM reddit_post
     )
     """)

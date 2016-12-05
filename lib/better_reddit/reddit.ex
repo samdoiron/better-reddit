@@ -1,8 +1,19 @@
 defmodule BetterReddit.Reddit do
-  @moduledoc ~S"""
-  The Reddit behaviour describes any way of getting access to the
-  Reddit data api.
-  """
+  use Supervisor
+  alias BetterReddit.Reddit
 
-  @callback get_front_page() :: BetterReddit.Reddit.Listing
+  def start_link do
+    Supervisor.start_link(__MODULE__, [])
+  end
+
+  def init([]) do
+    children = [
+      worker(Reddit.Gather, []),
+      worker(Reddit.FixThumbnails, [])
+    ]
+
+    opts = [strategy: :one_for_one]
+
+    supervise(children, opts)
+  end
 end

@@ -16,7 +16,8 @@ defmodule BetterReddit do
       supervisor(BetterReddit.Endpoint, []),
       worker(BetterReddit.Post, []),
       worker(BetterReddit.Repo, []),
-      worker(BetterReddit.Gather, [])
+
+      worker(BetterReddit.Reddit, [])
     ]
 
     opts = [strategy: :one_for_one, name: Supervisor]

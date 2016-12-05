@@ -2,6 +2,7 @@ defmodule BetterReddit.Schemas.Thumbnail do
   alias BetterReddit.Schemas
   alias BetterReddit.Repo
   use Ecto.Schema
+  import Ecto.Changeset
 
   @thumbnail_directory "thumbnails"
 
@@ -14,7 +15,7 @@ defmodule BetterReddit.Schemas.Thumbnail do
 
   def download_and_insert_for(post) do
     url = post.thumbnail_url
-    with {:ok, image, content_type} <- download(url),
+    with {:ok, image, content_type} <- download(post, url),
          file_extension <- content_type_to_extension(content_type),
          {:ok, file_name} <- store(image, file_extension)
          do
@@ -27,9 +28,24 @@ defmodule BetterReddit.Schemas.Thumbnail do
          end
   end
 
-  defp download(url) do
-    with {:ok, response} <- HTTPoison.get(url),
-         do: validate_response(response)
+  defp download(post, url) do
+    case HTTPoison.get(url) do
+      {:ok, response} ->
+        case validate_response(response) do
+          {:ok, file_name} -> {:ok, file_name}
+          {:error, :removed} ->
+            remove_thumbnail(post)
+            {:error, :removed}
+          other -> other
+        end
+      other -> other
+    end
+  end
+
+  defp remove_thumbnail(post) do
+    post
+    |> change(thumbnail_url: nil)
+    |> Repo.update()
   end
 
   defp store(image, extension) do
@@ -46,12 +62,15 @@ defmodule BetterReddit.Schemas.Thumbnail do
     |> Enum.into(%{})
 
     content_type = headers["content-type"]
-    if image_content_type?(content_type) do
-      {:ok, response.body, headers["content-type"]}
-    else
-      {:error, :not_an_image}
+    cond do
+      image_content_type?(content_type) ->
+        {:ok, response.body, headers["content-type"]}
+      is_404?(response) -> {:error, :removed}
+      true -> {:error, :not_an_image, response.body}
     end
   end
+
+  defp is_404?(response), do: response.status_code == 404
 
   defp image_content_type?(content_type) do
     if content_type == nil do

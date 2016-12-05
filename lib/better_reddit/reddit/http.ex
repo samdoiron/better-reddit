@@ -6,8 +6,6 @@ defmodule BetterReddit.Reddit.HTTP do
   """
   alias BetterReddit.Reddit.ListingParser
 
-  @behaviour BetterReddit.Reddit
-
   @fetcher BetterReddit.HTTPFetcher
 
   def get_front_page do

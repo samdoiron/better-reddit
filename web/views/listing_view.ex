@@ -37,6 +37,10 @@ defmodule BetterReddit.ListingView do
     render("post.html", post: post)
   end
 
+  def thumbnail_url(post) do
+    "/thumbs/#{post.thumbnail}"
+  end
+
   def get_post_path(post) do
     post_path(Endpoint, :show, Post.get_id(post))
   end

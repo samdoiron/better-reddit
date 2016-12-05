@@ -33,7 +33,7 @@ defmodule BetterReddit.Gather do
     Logger.debug("updating subreddit #{name}")
     case Reddit.HTTP.get_subreddit(name) do
       {:ok, posts} -> Reddit.PostProcessor.process(posts)
-      {:error, _} -> Logger.warn("failed to fetch subreddit #{name}")
+      {:error, err} -> Logger.warn("failed to fetch subreddit #{inspect(err)}")
     end
   end
 
@@ -54,8 +54,5 @@ defmodule BetterReddit.Gather do
     |> Enum.reduce(%{}, fn (subreddit, priorities) ->
       Map.put(priorities, subreddit["name"], subreddit["subscribers"])
     end)
-  end
-
-  defp process_posts(posts) do
   end
 end

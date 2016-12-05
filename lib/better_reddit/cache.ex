@@ -7,9 +7,14 @@ defmodule BetterReddit.Cache do
   end
 
   def get_or_calculate(cache, key, fallback_fn) do
-    case GenServer.call(cache, {:get, key}) do
-      {:found, result} -> result
-      :not_found -> set(cache, key, fallback_fn.())
+    if cache_disabled? do
+      IO.puts("cache disabled")
+      fallback_fn.()
+    else
+      case GenServer.call(cache, {:get, key}) do
+        {:found, result} -> result
+        :not_found -> set(cache, key, fallback_fn.())
+      end
     end
   end
 
@@ -44,6 +49,10 @@ defmodule BetterReddit.Cache do
 
   defp expired?(state, time_created) do
     time_created > now() + state[:cache_ms]
+  end
+
+  defp cache_disabled? do
+    !Application.get_env(:config, :enabled)
   end
 
   defp now, do: :os.system_time(:milli_seconds)

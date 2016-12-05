@@ -9,6 +9,9 @@ config :better_reddit, BetterReddit.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+config :cache,
+  enabled: false
+
 # Configure your database
 config :better_reddit, BetterReddit.Repo,
   adapter: Ecto.Adapters.Postgres,

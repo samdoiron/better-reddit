@@ -5,8 +5,7 @@ defmodule BetterReddit.Gather do
   """
 
   alias BetterReddit.Schedule
-  alias BetterReddit.Schemas.RedditPost
-  alias BetterReddit.Repo
+  alias BetterReddit.Reddit
   require Logger
 
   @reddit_api_timeout_ms 2_000
@@ -32,8 +31,8 @@ defmodule BetterReddit.Gather do
   defp update_subreddit(name) do
     sleep_timeout()
     Logger.debug("updating subreddit #{name}")
-    case BetterReddit.Reddit.HTTP.get_subreddit(name) do
-      {:ok, posts} -> insert_or_replace(posts)
+    case Reddit.HTTP.get_subreddit(name) do
+      {:ok, posts} -> Reddit.PostProcessor.process(posts)
       {:error, _} -> Logger.warn("failed to fetch subreddit #{name}")
     end
   end
@@ -57,9 +56,6 @@ defmodule BetterReddit.Gather do
     end)
   end
 
-  defp insert_or_replace(posts) do
-    posts
-    |> RedditPost.insert_or_replace_all()
-    |> Repo.transaction()
+  defp process_posts(posts) do
   end
 end

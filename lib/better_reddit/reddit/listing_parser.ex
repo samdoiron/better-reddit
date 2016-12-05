@@ -29,7 +29,7 @@ defmodule BetterReddit.Reddit.ListingParser do
       author: Map.get(post, "author"),
       subreddit: Map.get(post, "subreddit"),
       time_posted: extract_time_posted(post),
-      thumbnail: extract_thumbnail(post)
+      thumbnail_url: extract_thumbnail(post)
     }
   end
 
@@ -52,11 +52,5 @@ defmodule BetterReddit.Reddit.ListingParser do
       "" -> nil
       _ -> thumbnail
     end
-  end
-
-  defp extract_comments(json) do
-    post
-    |> Map.get("data")
-    |> Map.get("children")
   end
 end

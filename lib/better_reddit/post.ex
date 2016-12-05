@@ -1,18 +1,10 @@
 defmodule BetterReddit.Post do
   alias BetterReddit.Schemas
-  alias BetterReddit.Cache
 
   use GenServer
 
-  @cache_ms 120_000
-
   def start_link do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
-  end
-
-  def init(_args) do
-    {:ok, cache} = Cache.start_link(:post_cache, @cache_ms)
-    {:ok, [cache: cache]}
   end
 
   def get_id(post), do: "#{post.source}-#{post.source_id}"
@@ -38,10 +30,7 @@ defmodule BetterReddit.Post do
   end
 
   def handle_call({:hot_for_topic, topic_name}, _from, state) do
-    [cache: cache] = state
-    result = Cache.get_or_calculate(cache, topic_name, fn () ->
-      Schemas.Post.hot_for_topic(topic_name)
-    end)
+    result = Schemas.Post.hot_for_topic(topic_name)
     {:reply, result, state}
   end
 end

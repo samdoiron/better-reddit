@@ -30,7 +30,7 @@ defmodule BetterReddit.Reddit.Gather do
 
   defp update_subreddit(name) do
     sleep_timeout()
-    Logger.debug("updating subreddit #{name}")
+    Logger.info("updating subreddit #{name}")
     case Reddit.HTTP.get_subreddit(name) do
       {:ok, posts} -> Reddit.PostProcessor.process(posts)
       {:error, err} -> Logger.warn("failed to fetch subreddit #{inspect(err)}")

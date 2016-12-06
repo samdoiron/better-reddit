@@ -32,8 +32,8 @@ defmodule BetterReddit.Schemas.Post do
 
   def order_by_hotness(multi) do
     multi
-    |> order_by([u], desc:
     # Hot sorting: Score with a halflife of 5 hours
+    |> order_by([u], desc:
     fragment("power(2.71828, -1 * (1.0/5) * least(24 * 30, greatest(0, extract(epoch from now() - ?) / 3600))) * ?", u.time_posted, u.score))
   end
 

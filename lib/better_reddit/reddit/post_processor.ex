@@ -27,7 +27,7 @@ defmodule BetterReddit.Reddit.PostProcessor do
   end
 
   defp update_posts(posts) do
-    posts
+    {:ok, _} = posts
     |> RedditPost.update_all()
     |> Repo.transaction()
   end
@@ -43,18 +43,17 @@ defmodule BetterReddit.Reddit.PostProcessor do
   end
 
   defp split_new_and_old(posts) do
-    not_new = already_existing(posts)
-    not_new_ids = Enum.map(not_new, &(&1.reddit_id))
-    new = Enum.reject(posts, fn post ->
+    not_new_ids = already_existing_ids(posts)
+    {not_new, new} = Enum.partition(posts, fn post ->
       Enum.member?(not_new_ids, post.reddit_id)
     end)
     {new, not_new}
   end
 
-  defp already_existing(posts) do
-    ids = Enum.map(posts, &(&1.reddit_id))
+  defp already_existing_ids(posts) do
+    ids = for post <- posts, do: post.reddit_id
     query = from p in RedditPost, where: p.reddit_id in ^ids 
-    Repo.all(query)
+    for post <- Repo.all(query), do: post.reddit_id
   end
 
   defp has_thumbnail?(post), do: post.thumbnail_url != nil

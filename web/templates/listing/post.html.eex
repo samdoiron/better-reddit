@@ -1,6 +1,6 @@
 <article class="listing-item <%= nsfw_class(@post) %> js-listing-item">
   <%= if @post.thumbnail != nil do %>
-    <a href="<%= thumbnail_url(@post) %>">
+    <a href="<%= @post.url %>">
       <span style="background-image: url(<%= thumbnail_url(@post) %>)" class="listing-item-thumbnail"></span>
     </a>
   <% end %>

@@ -37,7 +37,7 @@ defmodule BetterReddit.Reddit.PostProcessor do
       {:ok, _} ->
         Logger.debug("downloaded thumbnail for post #{post.reddit_id}")
       other ->
-        IO.puts("failed to download thumbnail for post #{post.reddit_id}")
+        Logger.warn("failed to download thumbnail for post #{post.reddit_id}")
         other
     end
   end

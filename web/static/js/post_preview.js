@@ -57,6 +57,10 @@ function isChildOfPostPreview(initialNode) {
   return false;
 }
 
+function isMobile() {
+  return window.innerWidth < 800;
+}
+
 onReady(() => {
   document.documentElement.on('click', e => {
     if (!isChildOfPostPreview(e.target)) {
@@ -66,7 +70,7 @@ onReady(() => {
 
   DOM.behave('.js-open-preview', link => {
     link.on('click', e => {
-      if (!isNewTabOpenAttempt(e)){
+      if (!isNewTabOpenAttempt(e) && !isMobile()){
         e.preventDefault();
         openPostPreview(e.target.href);
       }

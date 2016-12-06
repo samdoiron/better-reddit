@@ -28,6 +28,7 @@ defmodule BetterReddit.Reddit.ListingParser do
       url: Map.get(post, "url") |> HtmlEntities.decode(),
       author: Map.get(post, "author"),
       subreddit: Map.get(post, "subreddit"),
+      is_nsfw: Map.get(post, "over_18"),
       time_posted: extract_time_posted(post),
       thumbnail_url: extract_thumbnail(post)
     }

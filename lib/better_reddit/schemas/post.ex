@@ -18,6 +18,7 @@ defmodule BetterReddit.Schemas.Post do
     field :topic, :string
     field :thumbnail, :string
     field :score, :integer
+    field :is_nsfw, :boolean
     field :time_posted, Timex.Ecto.DateTime
   end
 

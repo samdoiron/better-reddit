@@ -41,6 +41,14 @@ defmodule BetterReddit.ListingView do
     "/thumbnails/#{post.thumbnail}"
   end
 
+  def nsfw_class(post) do
+    if post.is_nsfw do
+      "is-nsfw"
+    else
+      ""
+    end
+  end
+
   def get_post_path(post) do
     post_path(Endpoint, :show, Post.get_id(post))
   end

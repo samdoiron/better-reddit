@@ -25,12 +25,13 @@ defmodule BetterReddit.Schemas.RedditPost do
     field :subreddit, :string
     field :time_posted, Timex.Ecto.DateTime
     field :thumbnail_url, :string
+    field :is_nsfw, :boolean
     has_one :thumbnail, Thumbnail
   end
 
   def changeset(post, params \\ %{}) do
     post
-    |> cast(params, [:ups, :downs])
+    |> cast(params, [:ups, :downs, :is_nsfw])
   end
 
   @doc "Insert new rows, or _replace_ (NOT UPSERT) them if they exist"
@@ -43,7 +44,7 @@ defmodule BetterReddit.Schemas.RedditPost do
   def update_all(posts) do
     Enum.reduce(posts, Multi.new(), fn (post, multi) ->
       changes = %RedditPost{reddit_id: post.reddit_id}
-      |> changeset(%{ ups: post.ups, downs: post.downs })
+      |> changeset(%{ ups: post.ups, downs: post.downs, is_nsfw: post.is_nsfw})
       Multi.update(multi, {:update_post, post.reddit_id}, changes)
     end)
   end

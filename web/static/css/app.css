@@ -102,11 +102,16 @@ ul {
     font-weight: bold;
 }
 
-.listing-item-thumbnail {
-    margin-right: 1em;
-    width: 5em;
-    height: 5em;
-    display: block;
+.listing-item.is-nsfw .listing-item-thumbnail {
+  filter: blur(5px);
+}
+
+.nsfw {
+  background: #F44336;
+  color: white;
+  padding: 0 .25em;
+  margin: 0 .25em;
+  font-weight: bold;
 }
 
 .listing-item-score {

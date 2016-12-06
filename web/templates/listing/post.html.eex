@@ -1,4 +1,4 @@
-<article class="listing-item js-listing-item">
+<article class="listing-item <%= nsfw_class(@post) %> js-listing-item">
   <%= if @post.thumbnail != nil do %>
     <a href="<%= thumbnail_url(@post) %>">
       <span style="background-image: url(<%= thumbnail_url(@post) %>)" class="listing-item-thumbnail"></span>
@@ -21,6 +21,9 @@
             <span class="listing-item-data listing-item-time">
                 <%= how_long_ago(@post.time_posted) %>
             </span>
+            <%= if @post.is_nsfw do %>
+              <span class="nsfw">nsfw</span>
+            <% end %>
         </div>
         <a data-no-instant href="<%= get_post_path(@post) %>"
            class="js-open-preview listing-item-comments">comments</a>

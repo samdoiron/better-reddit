@@ -4,9 +4,10 @@ defmodule BetterReddit.Schemas.RedditPost do
   """
 
   use Ecto.Schema
-  import Ecto.Changeset, only: [change: 2]
+  import Ecto.Changeset, only: [change: 2, cast: 3]
 
   alias Ecto.Multi
+  alias BetterReddit.Schemas.RedditPost
   alias BetterReddit.Schemas.RedditComment
   alias BetterReddit.Schemas.Thumbnail
 
@@ -27,6 +28,11 @@ defmodule BetterReddit.Schemas.RedditPost do
     has_one :thumbnail, Thumbnail
   end
 
+  def changeset(post, params \\ %{}) do
+    post
+    |> cast(params, [:ups, :downs])
+  end
+
   @doc "Insert new rows, or _replace_ (NOT UPSERT) them if they exist"
   def insert_all(posts) do
     Enum.reduce(posts, Multi.new(), fn (post, multi) ->
@@ -36,9 +42,8 @@ defmodule BetterReddit.Schemas.RedditPost do
 
   def update_all(posts) do
     Enum.reduce(posts, Multi.new(), fn (post, multi) ->
-      changes = post
-      |> change(ups: post.ups)
-      |> change(downs: post.downs)
+      changes = %RedditPost{reddit_id: post.reddit_id}
+      |> changeset(%{ ups: post.ups, downs: post.downs })
       Multi.update(multi, {:update_post, post.reddit_id}, changes)
     end)
   end

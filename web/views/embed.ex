@@ -9,7 +9,7 @@ defmodule BetterReddit.EmbedView do
     cond do
       image?(uri) -> render_image(uri)
       gifv?(uri) -> handle_gifv(uri)
-      imgur?(uri) -> handle_imgur(uri)
+      imgur_image?(uri) -> handle_imgur(uri)
       gfycat?(uri) -> handle_gfycat(uri)
       youtube?(uri) -> handle_youtube(uri)
       youtube_short?(uri) -> handle_youtube_short(uri)
@@ -22,10 +22,9 @@ defmodule BetterReddit.EmbedView do
     Enum.member?(@image_extensions, extension)
   end
 
-  defp imgur?(uri) do
-    is_imgur = uri.host == "imgur.com" || uri.host == "m.imgur.com"
-    is_file = String.match?(uri.path, ~r/\/[a-zA-Z0-9]\/?/)
-    is_imgur && is_file
+  defp imgur_image?(uri) do
+    is_file = String.match?(uri.path, ~r/^\/[a-zA-Z0-9]+\/?$/)
+    imgur?(uri) && is_file
   end
 
   defp handle_imgur(uri) do
@@ -35,6 +34,10 @@ defmodule BetterReddit.EmbedView do
 
   defp gifv?(uri) do
     uri.host == "i.imgur.com" && String.match?(uri.path, ~r/[^\/]+\.gifv\/?/)
+  end
+
+  defp imgur?(uri) do
+    uri.host == "imgur.com" || uri.host == "m.imgur.com"
   end
 
   defp handle_gifv(uri) do
@@ -70,7 +73,9 @@ defmodule BetterReddit.EmbedView do
                         query: uri.query})
   end
 
-  defp render_default(uri), do: URI.to_string(uri)
+  defp render_default(uri) do
+    render "default.html", url: URI.to_string(uri), host: uri.host
+  end
 
   def render_image(uri) do
     render "image.html", source: URI.to_string(uri)
@@ -85,7 +90,9 @@ defmodule BetterReddit.EmbedView do
   end
 
   defp imgur_id(uri) do
-    Regex.run(~r/[a-zA-Z0-9]+/, uri.path) |> List.first()
+    uri.path
+    |> String.split("/")
+    |> List.last()
   end
 
   defp make_https(uri) do

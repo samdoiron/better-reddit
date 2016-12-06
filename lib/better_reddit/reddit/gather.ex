@@ -8,6 +8,7 @@ defmodule BetterReddit.Reddit.Gather do
   alias BetterReddit.Reddit
   require Logger
 
+  @max_priority 500_000
   @reddit_api_timeout_ms 2_000
 
   def start_link do
@@ -52,7 +53,8 @@ defmodule BetterReddit.Reddit.Gather do
     content
     |> Poison.decode!()
     |> Enum.reduce(%{}, fn (subreddit, priorities) ->
-      Map.put(priorities, subreddit["name"], subreddit["subscribers"])
+      priority = Enum.min([subreddit["subscribers"], @max_priority])
+      Map.put(priorities, subreddit["name"], priority)
     end)
   end
 end

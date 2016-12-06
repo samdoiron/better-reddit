@@ -13,6 +13,7 @@ defmodule BetterReddit.Reddit.FixThumbnails do
 
   def run do
     posts = posts_without_thumbnails()
+    Logger.info("Fixing #{Enum.count(posts)} thumbnails")
     Enum.each(posts, &fix_thumbnail/1)
     Process.sleep(5_000)
   end
@@ -25,7 +26,7 @@ defmodule BetterReddit.Reddit.FixThumbnails do
           Logger.debug("Removed 404-ing thumbnail for #{post.reddit_id}")
         {:error, err} ->
           Logger.error(
-          "Error fixing thumbnail for post #{post.reddit_id}: #{inspect(err)}"
+          "Error fixing thumbnail #{post.thumbnail_url}: #{inspect(err)}"
           )
       end
     end)

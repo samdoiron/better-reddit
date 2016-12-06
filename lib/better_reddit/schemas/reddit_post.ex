@@ -4,7 +4,7 @@ defmodule BetterReddit.Schemas.RedditPost do
   """
 
   use Ecto.Schema
-  import Ecto.Changeset, only: [change: 2, cast: 3]
+  import Ecto.Changeset, only: [cast: 3]
 
   alias Ecto.Multi
   alias BetterReddit.Schemas.RedditPost

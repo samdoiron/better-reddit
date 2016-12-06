@@ -93,6 +93,8 @@ defmodule BetterReddit.EmbedView do
     uri.path
     |> String.split("/")
     |> List.last()
+    |> String.split(".")
+    |> List.first()
   end
 
   defp make_https(uri) do

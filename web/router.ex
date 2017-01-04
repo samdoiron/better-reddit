@@ -12,6 +12,7 @@ defmodule BetterReddit.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :put_headers, %{"Access-Control-Allow-Origin" => "*"}
   end
 
   scope "/", BetterReddit do
@@ -22,5 +23,10 @@ defmodule BetterReddit.Router do
 
     resources "/posts", PostController, only: [:show]
     get "/posts/:id/embed", PostController, :embed
+  end
+
+  scope "/api", BetterReddit.API do
+    pipe_through :api
+    resources "/communities", CommunityController, only: [:show]
   end
 end

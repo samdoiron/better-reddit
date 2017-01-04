@@ -7,6 +7,8 @@ defmodule BetterReddit.Schemas.Post do
   alias BetterReddit.Repo
   alias BetterReddit.Schemas.Post
 
+  @post_return_count 30
+
 
   @primary_key false
   schema "post" do
@@ -22,18 +24,29 @@ defmodule BetterReddit.Schemas.Post do
     field :time_posted, Timex.Ecto.DateTime
   end
 
-  def hot_for_topic(topic) do
+  def hot_posts_in_community(community) do
     Post
-    |> where([u], ilike(u.topic, ^topic))
+    |> where([u], ilike(u.topic, ^community))
     |> where([u], u.time_posted > ago(7, "day"))
+    |> where([u], not(is_nil(u.thumbnail)))
     |> order_by_hotness()
-    |> limit(25)
+    |> limit(@post_return_count)
+    |> Repo.all()
+  end
+
+  def hot_discussions_in_community(community) do
+    Post
+    |> where([u], ilike(u.topic, ^community))
+    |> where([u], u.time_posted > ago(7, "day"))
+    |> where([u], is_nil(u.thumbnail))
+    |> order_by_hotness()
+    |> limit(@post_return_count)
     |> Repo.all()
   end
 
   def order_by_hotness(multi) do
-    multi
     # Hot sorting: Score with a halflife of 5 hours
+    multi
     |> order_by([u], desc:
     fragment("power(2.71828, -1 * (1.0/5) * least(24 * 30, greatest(0, extract(epoch from now() - ?) / 3600))) * ?", u.time_posted, u.score))
   end

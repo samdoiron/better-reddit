@@ -1,6 +1,6 @@
 defmodule BetterReddit.ListingController do
   use BetterReddit.Web, :controller
-  alias BetterReddit.Listing
+  alias BetterReddit.Community
 
   def index(conn, _params) do
     text conn, "TODO: listing listing"
@@ -10,6 +10,6 @@ defmodule BetterReddit.ListingController do
     conn
     |> put_title(listing_name)
     |> render("show.html", listing_name: listing_name,
-                           listing: Listing.hot(listing_name))
+                           listing: Community.hot(listing_name))
   end
 end

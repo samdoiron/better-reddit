@@ -60,6 +60,12 @@ defmodule BetterReddit.Web do
   def router do
     quote do
       use Phoenix.Router
+
+      def put_headers(conn, key_values) do
+        Enum.reduce key_values, conn, fn {k, v}, conn ->
+          Plug.Conn.put_resp_header(conn, k, v)
+        end
+      end
     end
   end
 

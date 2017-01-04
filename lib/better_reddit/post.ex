@@ -13,8 +13,12 @@ defmodule BetterReddit.Post do
     GenServer.call(__MODULE__, {:get_by_id, composite_id})
   end
 
-  def hot_for_topic(topic_name) do
-    GenServer.call(__MODULE__, {:hot_for_topic, topic_name})
+  def hot_posts_in_community(topic_name) do
+    GenServer.call(__MODULE__, {:hot_posts_in_community, topic_name})
+  end
+
+  def hot_discussions_in_community(topic_name) do
+    GenServer.call(__MODULE__, {:hot_discussions_in_community, topic_name})
   end
 
   defp split_id(composite_id) do
@@ -29,8 +33,13 @@ defmodule BetterReddit.Post do
     {:reply, result, state}
   end
 
-  def handle_call({:hot_for_topic, topic_name}, _from, state) do
-    result = Schemas.Post.hot_for_topic(topic_name)
+  def handle_call({:hot_posts_in_community, topic_name}, _from, state) do
+    result = Schemas.Post.hot_posts_in_community(topic_name)
+    {:reply, result, state}
+  end
+
+  def handle_call({:hot_discussions_in_community, topic_name}, _from, state) do
+    result = Schemas.Post.hot_discussions_in_community(topic_name)
     {:reply, result, state}
   end
 end

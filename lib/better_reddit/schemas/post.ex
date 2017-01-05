@@ -25,22 +25,14 @@ defmodule BetterReddit.Schemas.Post do
   end
 
   def hot_posts_in_community(community) do
-    Post
-    |> where([u], ilike(u.topic, ^community))
-    |> where([u], u.time_posted > ago(7, "day"))
-    |> where([u], not(is_nil(u.thumbnail)))
-    |> order_by_hotness()
-    |> limit(@post_return_count)
+    hot_in_community(community)
+    |> where([p], not(is_nil(p.thumbnail)))
     |> Repo.all()
   end
 
   def hot_discussions_in_community(community) do
-    Post
-    |> where([u], ilike(u.topic, ^community))
-    |> where([u], u.time_posted > ago(7, "day"))
-    |> where([u], is_nil(u.thumbnail))
-    |> order_by_hotness()
-    |> limit(@post_return_count)
+    hot_in_community(community)
+    |> where([p], is_nil(p.thumbnail))
     |> Repo.all()
   end
 
@@ -60,7 +52,15 @@ defmodule BetterReddit.Schemas.Post do
     if post do
       {:ok, post}
     else
-      {:error, :not_found}
+      :no_such_post
     end
+  end
+
+  defp hot_in_community(community) do
+    Post
+    |> where([u], u.topic == ^String.downcase(community))
+    |> where([u], u.time_posted > ago(1, "day"))
+    |> order_by_hotness()
+    |> limit(@post_return_count)
   end
 end

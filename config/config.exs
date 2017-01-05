@@ -23,7 +23,8 @@ config :better_reddit, BetterReddit.Endpoint,
   render_errors: [view: BetterReddit.ErrorView, accepts: ~w(html json)],
   pubsub: [name: BetterReddit.PubSub,
            adapter: Phoenix.PubSub.PG2],
-  http: [compress: true]
+  http: [compress: true],
+  use_caching: true
 
 # Configures Elixir's Logger
 config :logger, :console,

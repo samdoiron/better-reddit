@@ -3,14 +3,14 @@ defmodule BetterReddit.Cache do
 
   def start_link(name, cache_ms \\ 60_000) do
     GenServer.start_link(__MODULE__, [table_name: name,
-                                      cache_ms: cache_ms])
+                                      cache_ms: cache_ms], name: name)
   end
 
   def get_or_calculate(cache, key, fallback_fn) do
     if cache_disabled? do
-      IO.puts("cache disabled")
       fallback_fn.()
     else
+      IO.puts("cache enabled")
       case GenServer.call(cache, {:get, key}) do
         {:found, result} -> result
         :not_found -> set(cache, key, fallback_fn.())
@@ -52,7 +52,7 @@ defmodule BetterReddit.Cache do
   end
 
   defp cache_disabled? do
-    !Application.get_env(:config, :enabled)
+    !Application.get_env(:config, :use_caching)
   end
 
   defp now, do: :os.system_time(:milli_seconds)

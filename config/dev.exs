@@ -24,7 +24,8 @@ config :better_reddit, BetterReddit.Endpoint,
       ~r{web/views/.*(ex)$},
       ~r{web/templates/.*(eex)$}
     ]
-  ]
+  ],
+  use_caching: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n", level: :info

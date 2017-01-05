@@ -14,7 +14,7 @@ defmodule BetterReddit do
 
     children = [
       supervisor(BetterReddit.Endpoint, []),
-      worker(BetterReddit.Post, []),
+      supervisor(BetterReddit.PostSupervisor, []),
       worker(BetterReddit.Repo, []),
 
       worker(BetterReddit.Reddit, [])
